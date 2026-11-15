@@ -1,0 +1,24 @@
+# ARCHIVO: requirements.txt
+# ROL: Declara las dependencias de Python del pipeline.
+# LEE: Nada.
+# PRODUCE: El entorno que instala `pip install -r requirements.txt`.
+# VERIFICACION: La instalación termina sin errores en Python 3.11 o superior.
+# NOTA: No hay backend web. La web es estática; sus bibliotecas llegan por CDN.
+
+# Acceso a datos astronómicos (m1_adquisicion, m5_identificacion)
+astropy>=6.0
+astroquery>=0.4.7
+pyvo>=1.5
+requests>=2.31
+
+# Alineación con detección de fuentes (m2_alineacion, m3_deteccion, m6_huella_espectral)
+numpy>=1.26
+scipy>=1.11
+reproject>=0.13
+photutils>=1.12
+matplotlib>=3.8
+
+# Verificación (todos los módulos de Python, contratos)
+pytest>=8.0
+check-jsonschema>=0.28
+jsonschema>=4.18

@@ -1,0 +1,63 @@
+{
+  "_comentario": "Ejemplo escrito a mano para probar cada módulo por separado. Valores inventados, sin valor científico. Contrato: contratos/candidatos.schema.json.",
+  "version_contrato": "1",
+  "campo": "campo_ejemplo",
+  "candidatos": [
+    {
+      "id_candidato": "p001",
+      "estado": "conocido",
+      "nombre_objeto": "Asteroide de ejemplo",
+      "distancia_catalogo_segarc": 3.22,
+      "clase_movimiento": "candidata",
+      "posicion_a": {
+        "ra_grados": 150.01,
+        "dec_grados": 2.005,
+        "x": 52.65,
+        "y": 61.43,
+        "mjd": 60900.0
+      },
+      "posicion_b": {
+        "ra_grados": 150.013,
+        "dec_grados": 2.0062,
+        "x": 50.89,
+        "y": 62.13,
+        "mjd": 60900.25
+      },
+      "separacion_segarc": 11.626,
+      "velocidad_segarc_por_hora": 1.9376,
+      "incertidumbre_velocidad": 0.1179,
+      "significancia": 16.44,
+      "tiene_espectro": true,
+      "tipo": "asteroide_rocoso",
+      "temperatura_k": 255.0
+    },
+    {
+      "id_candidato": "p002",
+      "estado": "artefacto_descartado",
+      "nombre_objeto": null,
+      "distancia_catalogo_segarc": null,
+      "clase_movimiento": "no_concluyente",
+      "posicion_a": {
+        "ra_grados": 149.99,
+        "dec_grados": 1.995,
+        "x": 64.35,
+        "y": 55.57,
+        "mjd": 60900.0
+      },
+      "posicion_b": {
+        "ra_grados": 149.991,
+        "dec_grados": 1.9953,
+        "x": 63.77,
+        "y": 55.75,
+        "mjd": 60900.25
+      },
+      "separacion_segarc": 3.756,
+      "velocidad_segarc_por_hora": 0.6261,
+      "incertidumbre_velocidad": 0.2152,
+      "significancia": 2.91,
+      "tiene_espectro": false,
+      "tipo": null,
+      "temperatura_k": null
+    }
+  ]
+}

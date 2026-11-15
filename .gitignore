@@ -1,9 +1,35 @@
+# Python / local environments
+__pycache__/
+*.py[cod]
 .venv/
 venv/
 env/
-__pycache__/
-*.py[cod]
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Node / browser tooling
+node_modules/
+.pnpm-store/
+
+# OS / editor
 .DS_Store
+.idea/
+.vscode/
+
+# Runtime data in the primary submodule (never committed from this envelope)
+system/**/var/*.sqlite-wal
+system/**/var/*.sqlite-shm
+system/**/var/*.log
+system/**/var/*.pid
+system/**/var/backup/
+system/**/var/blobs/
+
+# Local test artifacts
+docs/integration/*.tmp
+*.log
