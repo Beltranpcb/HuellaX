@@ -1,6 +1,10 @@
 # T5 · 统一启动器（Launcher / Health）
 
 > 一句话：一条命令按 **DB → app → view** 顺序启动三服务并做健康检查，打印三个 URL；一条命令只停自己启动的进程。
+>
+> **集成整栈（SQL-first，B 8799 / C 8798 / cover 8840）：** 使用
+> `./start_huellax.sh` / `./status_huellax.sh` / `./stop_huellax.sh`，
+> 运行手册见 [HUELLAX.md](HUELLAX.md)。本 README 的 T5 三服务脚本保持原行为。
 
 - 工作区根目录：`/Users/yiao/Documents/huellaX`
 - 本目录：`项目主控/启动/`
