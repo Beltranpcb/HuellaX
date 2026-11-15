@@ -32,8 +32,9 @@ catalogues. Catalogue non-matches are `no_match`, not discoveries.
 
 ## 4. Media
 
-- Earth imagery: NASA Visible Earth / Blue Marble, via three.js examples (MIT);
-  NASA media guidelines apply.
+- Earth imagery: NASA Visible Earth / Blue Marble and NASA Earth Observatory
+  night lights, via three.js example textures (MIT); NASA media guidelines apply.
+  Exact files and code-provenance notes: [`assets/ATTRIBUTION.md`](assets/ATTRIBUTION.md).
 - Screenshots and diagrams in this repository are project documentation.
 
 ## 5. NASA Space Apps Challenge
