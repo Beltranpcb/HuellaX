@@ -39,6 +39,23 @@ Chinese text. The primary runtime and its SQLite data live in the `system/`
 submodule.
 
 **Repository:** <https://github.com/Beltranpcb/HuellaX>
+**Live site:** <https://huella-x.earth>
+
+## Live site
+
+The public demo is deployed at **<https://huella-x.earth>** on AWS EC2
+(`eu-north-1`, Ubuntu 24.04, Nginx, HTTPS with automatic certificate renewal).
+
+| Entry point | URL |
+|---|---|
+| HuellaX entry page | <https://huella-x.earth/> |
+| Sky View workspace | <https://huella-x.earth/skyview/> |
+| MoveScope | <https://huella-x.earth/app/> |
+| App API health | <https://huella-x.earth/api/health> |
+
+The hosted demo uses the project SQLite data and the same candidate-first rules
+as the local build. It is a demonstration environment, not a discovery service:
+`no_match` and missing evidence are reported as such.
 
 ---
 
