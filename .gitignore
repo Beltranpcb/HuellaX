@@ -1,0 +1,13 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Ningún FITS entra en git
+*.fits
+
+# Nada de datos/ entra en git: es salida del pipeline, no fuente.
+# Se regenera con los módulos (o con m9_sitio/ejemplos/generar_datos.py).
+datos/*
+!datos/LEEME.md
