@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "contratos/catalogo.schema.json",
+  "title": "catalogo.json: catálogo navegable de objetos",
+  "$comment": "ARCHIVO: contratos/catalogo.schema.json. ROL: fija la forma de catalogo.json: un objeto por pareja candidata publicada, con su clasificación, los datos disponibles y los objetos relacionados. PRODUCTOR: m7_publicacion (propuesto: indice_catalogo.py). CONSUMIDORES: m9_sitio. RUTA REAL: datos/m7_publicacion/catalogo.json. VERIFICACION: check-jsonschema --schemafile contratos/catalogo.schema.json <archivo>. No contiene lógica: solo describe datos. Solo se listan objetos detectados en los campos publicados; nunca se rellena con objetos sin datos del proyecto.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version_contrato",
+    "objetos"
+  ],
+  "properties": {
+    "_comentario": {
+      "type": "string",
+      "description": "Comentario libre para humanos. Ningún consumidor lo lee."
+    },
+    "version_contrato": {
+      "const": "1",
+      "description": "Versión del contrato. Cambia solo en un PR propio avisado a los cuatro lotes."
+    },
+    "objetos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id_objeto",
+          "campo",
+          "id_candidato",
+          "nombre",
+          "estado_identificacion",
+          "clasificacion",
+          "datos"
+        ],
+        "properties": {
+          "id_objeto": {
+            "type": "string",
+            "description": "campo/id_candidato, por ejemplo sphx_a/p001.",
+            "pattern": "^[a-z0-9_]+/p[0-9]{3}$"
+          },
+          "campo": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "id_candidato": {
+            "type": "string",
+            "pattern": "^p[0-9]{3}$"
+          },
+          "nombre": {
+            "type": "string",
+            "description": "Nombre catalogado o, si no hay, Sin identificar seguido de campo/id."
+          },
+          "designacion": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Número o designación oficial cuando exista."
+          },
+          "estado_identificacion": {
+            "enum": [
+              "conocido",
+              "sin_identificar",
+              "artefacto_descartado"
+            ]
+          },
+          "clasificacion": {
+            "enum": [
+              "asteroide",
+              "cometa",
+              "planeta_enano",
+              "estrella",
+              "enana_marron",
+              "galaxia",
+              "desconocida",
+              null
+            ]
+          },
+          "fuente_clasificacion": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Catálogo o servicio que aporta la clase; nula si no hay."
+          },
+          "datos": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "imagen",
+              "trayectoria",
+              "espectro"
+            ],
+            "description": "Disponibilidad real de cada dato; nunca marcar disponible lo que no existe.",
+            "properties": {
+              "imagen": {
+                "type": "boolean"
+              },
+              "trayectoria": {
+                "type": "boolean"
+              },
+              "espectro": {
+                "enum": [
+                  "real",
+                  "sintetico",
+                  "no_declarado",
+                  "pendiente",
+                  "ninguno"
+                ],
+                "description": "real o sintetico: hay espectro válido y su origen está declarado. no_declarado: hay espectro pero nadie declaró su origen; no se presenta como real. pendiente: objeto conocido aún sin espectro medido. ninguno: sin espectro."
+              }
+            }
+          },
+          "n_puntos_espectrales": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "tipo_espectral": {
+            "enum": [
+              "asteroide_rocoso",
+              "asteroide_oscuro",
+              "cometa",
+              "enana_marron",
+              "indeterminado",
+              null
+            ]
+          },
+          "relacionados": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "misma_clasificacion",
+              "espectros_similares"
+            ],
+            "description": "Dos criterios que no son intercambiables: misma clase catalogada y forma espectral parecida.",
+            "properties": {
+              "misma_clasificacion": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "id_objeto con la misma clasificacion y la misma fuente de clasificación."
+              },
+              "espectros_similares": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "id_objeto",
+                    "metrica",
+                    "valor",
+                    "rango_comun_micras",
+                    "normalizacion",
+                    "n_puntos"
+                  ],
+                  "properties": {
+                    "id_objeto": {
+                      "type": "string"
+                    },
+                    "metrica": {
+                      "type": "string",
+                      "description": "Por ejemplo chi2_reducido_entre_espectros."
+                    },
+                    "valor": {
+                      "type": "number"
+                    },
+                    "rango_comun_micras": {
+                      "type": "array",
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "normalizacion": {
+                      "type": "string",
+                      "description": "Método y longitud de onda de normalización."
+                    },
+                    "n_puntos": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                },
+                "description": "Objetos cuyo espectro tiene una forma compatible, del más al menos parecido. La métrica, el intervalo común y la normalización acompañan a cada uno."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
