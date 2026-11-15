@@ -26,6 +26,9 @@ if [ -n "$FALLBACK" ]; then
     esac
     shift
   done
+  if [ "${#args[@]}" -eq 0 ]; then
+    exec bash "$FALLBACK"
+  fi
   exec bash "$FALLBACK" "${args[@]}"
 fi
 echo "No supported launcher found under system/." >&2

@@ -1,56 +1,220 @@
-# HuellaX · MoveScope × AstroNova
+# HuellaX
 
 **English** | [Español](README.es.md)
 
-**A candidate-first SPHEREx motion laboratory, with a clean public envelope and an explicit upstream.**
+> **Start with the sky. End with evidence.**
+> A candidate-first SPHEREx laboratory: choose a region in Sky View, hand it to
+> MoveScope, then inspect catalogue, spectral and 3D context.
 
-HuellaX combines:
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-4c8bf5.svg)](LICENSE)
+[![Data: SQLite](https://img.shields.io/badge/data-SQLite-57e6ff.svg)](#data-and-provenance)
+[![Status: candidate-first](https://img.shields.io/badge/status-candidate--first-ffb454.svg)](#scientific-boundaries)
 
-- **MoveScope**, the primary live system: multi-epoch SPHEREx cutouts, SQL catalogues, source detection, motion/variability modelling, Gaia/2MASS/WISE identification, arbitrary-field coverage, batch runs and audit exports.
-- **AstroNova / HUELLA X**, the NASA Space Apps Challenge 2026 prototype, preserved under [`astro/`](astro/) as a clearly labelled legacy demo and offline pipeline.
-- A bilingual entry page, this English README and the Spanish [`README.es.md`](README.es.md).
-
-> **Candidate rule.** A candidate is not a discovery. Two epochs do not establish a new object.
-> A catalogue non-match is `no_match`, not a new planet. AstroNova's synthetic demo is not
-> observational evidence.
+![HuellaX entry page](docs/screenshots/entry-en.png)
 
 ---
 
-## 1. Repository shape
+## 1. What HuellaX is
 
-This public repository is deliberately split into an **English/Spanish envelope** and a
-**primary source submodule**:
+HuellaX is an open, local-first analysis environment for **SPHEREx** images.
+It is built around one rule:
+
+> **A candidate is not a discovery.** A catalogue non-match is `no_match`, not a
+> new planet. Two epochs do not establish a new object.
+
+The project combines:
+
+- **MoveScope** — multi-epoch SPHEREx cutouts, common-WCS photometry, motion and
+  variability modelling, catalogue identification, batch identification, tracks
+  and audit exports.
+- **Sky View** — the main entry into the data: a 3D sky/globe, region and epoch
+  selection, an analysis time window, and one explicit handoff to MoveScope.
+- **Evidence modules inside Sky View** — SkyBoT, an instrument band atlas and a
+  3D context panel. Each has a clearly stated evidential boundary.
+- **AstroNova / HUELLA X** — the NASA Space Apps Challenge 2026 prototype,
+  preserved under `astro/` as a legacy reference, never as the primary data path.
+
+The public envelope of this repository is English/Spanish and contains no
+Chinese text. The primary runtime and its SQLite data live in the `system/`
+submodule.
+
+**Repository:** <https://github.com/Beltranpcb/HuellaX>
+
+---
+
+## 2. The experience
 
 ```text
-HuellaX/
-├── index.html              bilingual entry page (English default, Spanish switch)
-├── README.md               this file
-├── README.es.md            Spanish README
-├── INTEGRATION.md          integration architecture and upstream mapping
-├── start.sh / stop.sh      entry points for the submodule launcher
-├── scripts/                documentation and no-CJK checks
-├── docs/integration/       functional-test report and screenshots
-├── astro/                  AstroNova legacy (upstream, Spanish UI)
-└── system/                 git submodule: primary MoveScope implementation
+Entry page
+   │  Enter Sky View
+   ▼
+Sky View ── select region + epoch + analysis window
+   │  one handoff: ra, dec, fov, t0, t1, from=view
+   ▼
+MoveScope ── SQL epochs, motion/variability, catalogue identity
+   │
+   ├── Normal / Cascade-residual / Track modes
+   ├── A/C source batch identification
+   ├── unified candidate directory
+   └── CSV/JSON audit exports
+
+Inside Sky View:
+   ├── SkyBoT    known solar-system objects (external ephemerides)
+   ├── Bands     102-band instrument plan + molecular windows
+   └── 3D        actual Sky View context + clearly labelled legacy 3D link
 ```
 
-`system/` points to
-[`tonyelos/huella-x-simu`](https://github.com/tonyelos/huella-x-simu), the primary
-implementation. Its internal layout is owned by that upstream repository; this envelope
-does not duplicate it. `astro/` is the AstroNova upstream preserved at the analysed
-commit.
+### Entry page
 
-### Why a submodule?
+The entry page is intentionally light: it introduces the evidence chain and
+gives one primary action, **Enter Sky View**. The GitHub repository is linked in
+the header, next to the primary action and in the footer.
 
-The primary project contains a large, actively developed Python/SQLite stack. Keeping it
-as a submodule:
+![HuellaX entry page, Spanish](docs/screenshots/entry-es.png)
 
-- gives the public envelope a small, reviewable, English/Spanish-only surface;
-- keeps the primary source and its history in one place;
-- avoids copying 100+ MB of runtime data and generated caches into this repository;
-- makes the boundary between **primary runtime** and **legacy AstroNova** explicit.
+### Sky View — the main workspace
 
-Clone with submodules:
+![Sky View](docs/screenshots/skyview-en.png)
+
+Sky View is where the user chooses:
+
+- RA / Dec / field of view;
+- observation epoch and UTC timeline;
+- analysis window (`t0`–`t1`);
+- target presets or a custom region.
+
+The handoff is one click and one URL. There is no second analysis entry point.
+
+![Sky View, Spanish](docs/screenshots/skyview-es.png)
+
+---
+
+## 3. Evidence modules
+
+The modules are not decorative cards. They are designed around what the project
+can actually support today.
+
+### SkyBoT — known solar-system objects
+
+![SkyBoT module](docs/screenshots/modules-skybot-en.png)
+
+- Uses the current Sky View RA/Dec/MJD.
+- Builds a real IMCCE SkyBoT cone-search request.
+- Shows an external **no known object** result rather than inventing a match.
+- Provides a direct external link when the browser cannot read the response.
+- A non-match is not a discovery.
+
+### Bands — instrument plan, not a measured spectrum
+
+![Band and molecule module](docs/screenshots/modules-bands-en.png)
+
+- 102 SPHEREx bands across 0.75–5.0 µm.
+- Common molecular windows: water ice, CO₂, CO, methane, silicates.
+- Hover/select interaction is schematic but based on the real band plan.
+- The panel explicitly says: **not a measured spectrum**.
+- Measured spectra remain in MoveScope when the pipeline actually has one.
+
+### 3D — real Sky View context
+
+![3D context module](docs/screenshots/modules-3d-en.png)
+
+- Reads the current selection: RA, Dec, FOV and local hits.
+- The globe behind the panel is the actual 3D context.
+- The separate AstroNova 3D spectral page is labelled **legacy** and is never
+  presented as a measured 3D spectrum.
+
+---
+
+## 4. MoveScope
+
+![MoveScope analysis](docs/screenshots/movescope-analysis-en.png)
+
+MoveScope is the analysis destination. A run reports:
+
+- data mode (`REAL`, `HYBRID`, `SAMPLE`, `SIM` where applicable);
+- number of usable epochs and baseline;
+- motion fingerprint / variability evidence;
+- a motion class with confidence and falsifiers;
+- catalogue identity status: `known`, `ambiguous`, `no_match`, `insufficient`,
+  `unavailable` or `conflict`;
+- readiness level L0–L3 and the limits of the data.
+
+![MoveScope analysis, Spanish](docs/screenshots/movescope-analysis-es.png)
+
+The UI can switch between **Normal**, **Cascade / residuals** and **Tracks**
+without leaving the same analysis canvas. A/C sources can be identified in
+batch, merged into a unified candidate directory, and exported as CSV or JSON.
+
+---
+
+## 5. Architecture
+
+```text
+HuellaX envelope
+├── index.html                  bilingual entry page
+├── README.md / README.es.md
+├── INTEGRATION.md              integration boundaries and upstream mapping
+├── start.sh / stop.sh          wrappers around the primary core launcher
+├── scripts/                    cover server and checks
+├── docs/screenshots/           README images
+├── astro/                      AstroNova legacy (Spanish UI, synthetic demo)
+└── system/                     git submodule: primary MoveScope runtime
+    ├── app/                    MoveScope API + browser UI + tests
+    ├── database/               SQLite catalog and catalogue service B
+    ├── anyfield/               arbitrary-field coverage service C
+    └── viewer/                 Sky View + evidence modules
+```
+
+### Services
+
+| Service | Default port | Role |
+|---|---:|---|
+| DB API | 8797 | SQLite catalog, epochs, coverage, provenance |
+| MoveScope app | 8790 | analysis, batch, cascade, tracks, exports |
+| Sky View | 8830 | region/epoch selection and one handoff |
+| Catalogue B | 8799 | Gaia + derived 2MASS/WISE SQLite service |
+| AnyField C | 8798 | arbitrary-field coverage/discovery |
+| Entry page | 8840 | static bilingual entry |
+
+---
+
+## 6. Data and provenance
+
+**SQL is the primary data source.**
+
+- `system/` contains the SQLite catalog and the separate Gaia/2MASS/WISE
+  catalogue used by service B.
+- The 2MASS/WISE tables are derived Gaia-crossmatch subsets, not complete
+  all-sky catalogues.
+- Identification uses a positional match with Gaia as primary and 0.5 arcsec
+  de-duplication.
+- Local JSON is an explicit offline fallback for preset targets; it is not a
+  second source of truth.
+- AstroNova’s static JSON/PNG under `astro/datos/` is legacy/demo and is not
+  connected to the SQL path.
+
+### Candidate vocabulary
+
+| Status | Meaning |
+|---|---|
+| `known` | Catalogue association within the tested tolerance |
+| `ambiguous` | More than one plausible association |
+| `no_match` | No association in the tested set; **not** a new object |
+| `insufficient` | Data cannot support the question |
+| `unavailable` | Required service or catalogue unavailable |
+| `conflict` | Sources disagree; do not force a conclusion |
+
+---
+
+## 7. Quick start
+
+### Requirements
+
+- Python 3.11+ with the dependencies used by the primary submodule
+- Git with submodule support
+- A WebGL2-capable browser for Sky View
+
+### Clone
 
 ```bash
 git clone --recurse-submodules https://github.com/Beltranpcb/HuellaX.git
@@ -63,25 +227,32 @@ If the submodule is missing:
 git submodule update --init --recursive
 ```
 
----
-
-## 2. Quick start
+### Start the core runtime
 
 ```bash
-# from the repository root
 ./start.sh
 ```
 
-The wrapper locates the primary launcher inside `system/` and starts the core SQL-first stack (DB, MoveScope, Sky View). B/C and the static cover are separate optional services; see below.
+This starts the core SQL-first stack:
 
-| Service | Default port | Role |
-|---|---:|---|
-| Database API | 8797 | SQLite catalog, epochs, coverage |
-| MoveScope app | 8790 | analysis, candidates, batch, tracks |
-| Sky View | 8830 | region/time selection and one MoveScope handoff |
-| Gaia catalog B | 8799 | separate SQLite catalogue service |
-| AnyField C | 8798 | arbitrary-field coverage/discovery |
-| Entry | 8840 | bilingual public entry page (optional; `./scripts/serve_cover.sh`) |
+```text
+DB 8797 · MoveScope 8790 · Sky View 8830
+```
+
+### Start the entry page
+
+```bash
+./scripts/serve_cover.sh
+# http://127.0.0.1:8840/
+```
+
+### Optional evidence services
+
+Catalogue B and AnyField C are optional in this public envelope. The primary
+submodule contains their launchers and runbook:
+
+- B on 8799 is needed for catalogue identification.
+- C on 8798 is needed for arbitrary-field coverage/discovery.
 
 Open:
 
@@ -89,138 +260,87 @@ Open:
 - MoveScope: <http://127.0.0.1:8790/>
 - Sky View: <http://127.0.0.1:8830/>
 
-Stop with:
+Stop:
 
 ```bash
 ./stop.sh
 ```
 
-The wrapper is intentionally minimal. The authoritative launcher, runbook and
-tests live in the `system/` submodule.
-
 ---
 
-## 3. Data: SQL first
-
-The primary data path is SQL:
-
-- `system/` ships the SQLite catalog metadata and the separate Gaia/2MASS/WISE star
-  catalogue used by service B;
-- the app queries the database API for targets, epochs and coverage;
-- catalog identification is a multi-catalogue positional match with a Gaia primary and
-  0.5 arcsec de-duplication;
-- arbitrary coordinates go through the coverage service and the SQL catalog;
-- local JSON is an explicit offline fallback for preset targets, never a second source
-  of truth.
-
-The legacy AstroNova pipeline writes JSON/PNG under `astro/datos/`; that data is
-**synthetic/demo** unless a real run is separately documented. It is not wired into the
-primary SQL path.
-
-### Candidate status vocabulary
-
-`known`, `ambiguous`, `no_match`, `insufficient`, `unavailable`, `conflict`.
-
-- `known` means a catalogue association within the tested tolerance.
-- `ambiguous` means more than one plausible association.
-- `no_match` means no catalogue match in the tested set; it does **not** mean new.
-- `insufficient` means the data cannot support the question.
-- `unavailable` means a required service/catalogue was unavailable.
-
----
-
-## 4. Main features
+## 8. Main features
 
 - Multi-epoch SPHEREx cutout retrieval and common-WCS photometry.
-- Motion vs variability model family with BIC, uncertainty and readiness levels.
-- Gaia DR3 plus 2MASS/WISE derived crossmatches, with `known` / `ambiguous` /
-  `no_match` semantics.
-- A/C source batch identification, unified candidate directory and track view.
-- Cascade/residual view and tracklets on the same canvas as the analysis.
-- Arbitrary-field coverage/discovery service.
+- Motion vs variability model family with BIC, uncertainty and readiness.
+- Gaia DR3 plus derived 2MASS/WISE identification.
+- A/C batch identification and unified candidate directory.
+- Cascade/residual and tracklet views on the same analysis canvas.
+- Arbitrary-field coverage/discovery.
 - CSV/JSON audit exports with provenance.
-- Sky View: region/time selection, timeline, playback and one MoveScope handoff.
-
-### Inside Sky View
-
-- **SkyBoT** — live IMCCE cone search for known solar-system objects, with an explicit external-service fallback.
-- **Bands** — a real 102-band instrument plan with molecular windows; it explicitly is not a measured spectrum.
-- **3D context** — the actual Sky View globe and selection, plus a clearly labelled legacy 3D link.
-
-The modules share the Sky View visual system and never turn a catalogue non-match into a discovery.
-- Bilingual entry page and UI language selector (English default, Spanish complete).
-
-The app intentionally does **not** claim a discovery, a confirmed planet, or a
-composition derived from synthetic templates.
+- Sky View timeline, playback, time window and single MoveScope handoff.
+- SkyBoT, band atlas and 3D context modules.
+- English-primary UI with a complete Spanish selector.
 
 ---
 
-## 5. Validation
+## 9. Validation
 
-The integration was exercised locally with the primary runtime:
+The project was exercised locally with the full integration:
 
 | Check | Result |
 |---|---|
-| App test suite | **298 tests OK** |
+| App suite | **298 tests OK** |
 | Sky View smoke | **65 PASS / 0 FAIL / 0 WARN** |
-| Public-envelope docs/CJK checks | **48 docs checks + no-CJK gate** |
+| Public-envelope checks | **48 PASS** |
 | Acceptance T1 | **45 PASS / 0 FAIL / 1 WARN** |
 | Drift checker T6 | **0 ERROR** |
 | Integrated launcher | **6/6 services healthy** |
-| Candidate functional test | Barnard `REAL`, 4 epochs, `L`, catalogue prior |
+| Candidate functional test | Barnard: `REAL`, 4 epochs, `L`, catalogue prior |
 
-The full local evidence is in
-[`docs/integration/FUNCTIONAL-TEST.md`](docs/integration/FUNCTIONAL-TEST.md).
+The evidence report is in [`docs/integration/FUNCTIONAL-TEST.md`](docs/integration/FUNCTIONAL-TEST.md).
 
 ---
 
-## 6. AstroNova legacy boundary
+## 10. Scientific boundaries
 
-[`astro/`](astro/) preserves the AstroNova / HUELLA X upstream:
+HuellaX deliberately avoids overclaiming:
 
-- upstream: <https://github.com/Beltranpcb/AstroNova>
-- analysed commit: `1253925ab13419b5d44db323548784c939a93a6e`
-- event: NASA Space Apps Challenge 2026, Planet X and SPHEREx.
+- no “new planet” or “discovery” wording for candidates;
+- no synthetic AstroNova demo presented as observation;
+- no catalogue non-match presented as a new object;
+- no synthetic spectral template presented as a measured composition;
+- no 3D legacy view presented as a measured 3D spectrum;
+- no fabricated successful TAP ingest when the upstream service is unavailable.
 
-At merge time the upstream had **no LICENSE file**. The owner confirmed that the code
-may be included in HuellaX as open code. It is preserved with attribution and is **not
-relicensed** under the Apache License 2.0 that covers the original MoveScope work. Its
-static demo fields are synthetic and must not be presented as observations or validation
-evidence. See [`astro/UPSTREAM.md`](astro/UPSTREAM.md) and
-[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+AstroNova’s synthetic demo is useful for interface and pipeline reference only.
+Its real-data and Gaia validation was pending at merge time.
+
+---
+
+## 11. AstroNova legacy
+
+`astro/` preserves the AstroNova / HUELLA X upstream:
+
+- <https://github.com/Beltranpcb/AstroNova>
+- commit `1253925ab13419b5d44db323548784c939a93a6e`
+- NASA Space Apps Challenge 2026, Planet X and SPHEREx
+
+At merge time the upstream had no LICENSE file. The owner confirmed that the
+code may be included as open code. It is preserved with attribution and is **not
+relicensed** under the Apache License 2.0 that covers the original MoveScope
+work. See [`astro/LEGACY.md`](astro/LEGACY.md), [`astro/UPSTREAM.md`](astro/UPSTREAM.md)
+and [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
 NASA does not endorse this project or any commercial product or service.
 
 ---
 
-## 7. Known limits
+## 12. License and links
 
-- The primary source lives in the submodule; this envelope alone is not the full runtime.
-- AstroNova's UI remains Spanish legacy with a bilingual banner.
-- The primary app still exposes some backend audit fields in their original form; the UI
-  localises the user-facing labels.
-- Real TAP ingestion can be blocked by upstream timeouts; the project does not fabricate
-  a successful ingest.
-- Catalogue non-matches are not discoveries.
-- The public envelope contains no Chinese text; the upstream submodule is governed by
-  its own repository.
+- Original MoveScope/HuellaX work: **Apache-2.0**, see [`LICENSE`](LICENSE).
+- Third-party data/software: see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+- References: [`REFERENCES.md`](REFERENCES.md).
+- Integration design: [`INTEGRATION.md`](INTEGRATION.md).
+- Repository: <https://github.com/Beltranpcb/HuellaX>
 
----
-
-## 8. Documentation
-
-| Document | Purpose |
-|---|---|
-| [`README.es.md`](README.es.md) | Spanish README |
-| [`INTEGRATION.md`](INTEGRATION.md) | architecture, mapping, SQL flow, ownership |
-| [`docs/integration/FUNCTIONAL-TEST.md`](docs/integration/FUNCTIONAL-TEST.md) | local E2E results |
-| [`NOTICE`](NOTICE) | licensing and upstream boundary |
-| [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) | third-party data/software |
-| [`REFERENCES.md`](REFERENCES.md) | citation list |
-| [`index.html`](index.html) | bilingual cover |
-
-## 9. License
-
-The original MoveScope/HuellaX work is Apache-2.0; see [`LICENSE`](LICENSE).
-AstroNova is included by owner permission, is not relicensed, and remains attributed.
-Third-party data and software are not covered by the Apache license.
+**Candidate ≠ discovery.**
