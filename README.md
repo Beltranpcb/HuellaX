@@ -72,7 +72,7 @@ git submodule update --init --recursive
 ./start.sh
 ```
 
-The wrapper locates the primary launcher inside `system/` and starts the SQL-first stack:
+The wrapper locates the primary launcher inside `system/` and starts the core SQL-first stack (DB, MoveScope, Sky View). B/C and the static cover are separate optional services; see below.
 
 | Service | Default port | Role |
 |---|---:|---|
@@ -81,7 +81,7 @@ The wrapper locates the primary launcher inside `system/` and starts the SQL-fir
 | Sky View | 8830 | region/time selection and one MoveScope handoff |
 | Gaia catalog B | 8799 | separate SQLite catalogue service |
 | AnyField C | 8798 | arbitrary-field coverage/discovery |
-| Cover | 8840 | bilingual public landing page |
+| Cover | 8840 | bilingual public landing page (optional; `./scripts/serve_cover.sh`) |
 
 Open:
 
