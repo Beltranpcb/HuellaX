@@ -16,7 +16,9 @@
 ## 1. Original content license
 
 **All original code, documentation, figures, and screenshots created for this
-Challenge are licensed under the Apache License, Version 2.0.**
+Challenge are licensed under the Apache License, Version 2.0.** The preserved
+AstroNova/HUELLA X upstream under `astro/` is excluded from this license; see
+§2.1.
 
 - License: Apache-2.0
 - Full text: [`LICENSE`](LICENSE)
@@ -49,6 +51,17 @@ license; the default is mentioned here only for transparency.
 
 If a future package redistributes these runtimes, their license texts must be
 included in the package.
+
+### 2.1 Upstream code included by permission (not relicensed)
+
+| Resource | Commit | License status | Source | Used in |
+|---|---|---|---|---|
+| AstroNova / HUELLA X | `1253925ab13419b5d44db323548784c939a93a6e` | No upstream `LICENSE`/`COPYING` found at analysis time; included by explicit owner permission; **not** Apache-2.0 | <https://github.com/Beltranpcb/AstroNova> | `astro/` (legacy static site + offline pipeline); no code copied into `系统/` |
+
+- NASA Space Apps Challenge 2026 — Planet X and SPHEREx prototype.
+- Demo fields are synthetic and are not validation evidence.
+- Attribution boundary: [`astro/UPSTREAM.md`](astro/UPSTREAM.md) and
+  [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) §5.2.
 
 ---
 
