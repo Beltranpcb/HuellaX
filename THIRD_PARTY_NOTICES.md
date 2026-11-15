@@ -2,7 +2,7 @@
 
 > 本文件是提交文档的一部分，逐项列出本项目使用的第三方代码、数据、图片、字体和参考资料，以及它们的许可证/使用条款与来源。
 > 简版/可直接粘贴到提交表单的版本见 [`REFERENCES.md`](REFERENCES.md)。
-> 若某项材料没有明确许可证，本项目不应发布它；请先补许可证或替换。
+> 若某项材料没有明确许可证，本项目不应发布它；请先补许可证或替换。唯一例外是 `astro/` 下按权利人明确许可收录的 AstroNova/HUELLA X upstream（见 §5.2），该部分不由本项目再许可。
 > 生成日期：2026-11-15。对应提交：`huella-x` / MoveScope（星动仪）。
 > 官方要求：NASA Space Apps Legal 要求“所有资源都必须引用；第三方材料必须无限制可用或 OSI 开源；提交文档必须写明许可证”；未指定许可证的原创内容默认 Apache 2.0。原文：<https://www.spaceappschallenge.org/legal/>。
 
@@ -116,6 +116,31 @@
 **合规风险提示**：Gaia 的 CC BY-NC 与 SIMBAD 的 ODbL 都不是 OSI 软件许可证；
 它们作为“数据”使用，需按各自条款处理，并确认 NASA Space Apps Legal 对
 “space agency partner data”的适用性。接入前不要把“未匹配”说成“新星”。
+
+---
+
+## 5.2 AstroNova / HUELLA X upstream（按权利人许可收录，非 Apache-2.0）
+
+> 状态：`astro/` 保留 AstroNova/HUELLA X 上游源码树；**不复制进 `系统/` 运行时**，
+> 也**不再许可**为 Apache-2.0。旧仓库分析时未发现 `LICENSE`/`COPYING`；权利人已确认
+> 该代码可作为开放代码收录进 HuellaX。
+
+| 项 | 值 |
+|---|---|
+| 仓库 | <https://github.com/Beltranpcb/AstroNova> |
+| 产品名 | HUELLA X |
+| 分析提交 | `1253925ab13419b5d44db323548784c939a93a6e` |
+| 事件 | NASA Space Apps Challenge 2026 — Planet X and SPHEREx |
+| 上游许可证 | 分析时仓库无 `LICENSE` / `COPYING` |
+| 收录依据 | 权利人明确许可作为开放代码收录 |
+| 本项目处理 | 保留归属、路径、提交 SHA 与事件说明；不按 Apache-2.0 再许可 |
+| 范围 | `astro/` 全部源码、合同、示例与文档；demo 字段为**合成数据** |
+
+- 上游 demo 数据（`slipher`/`atlas`/`luhman`）由
+  `astro/modulos/m9_sitio/ejemplos/generar_datos.py` 生成，**不是观测数据、不是验证证据**。
+- 本项目的原创代码/文档仍按 Apache-2.0；`astro/` 不受该许可证覆盖。
+- 若将来公开再分发或再许可，应先完成法律复核；不要声称上游是 OSI/Apache-2.0。
+- 完整边界见 `astro/UPSTREAM.md`、`INTEGRATION.md`；NASA 不背书本项目。
 
 ---
 

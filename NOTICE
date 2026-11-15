@@ -32,3 +32,20 @@ NASA Space Apps Challenge legal terms applied to this submission:
   https://www.spaceappschallenge.org/faq/
 
 NASA does not endorse this project or any commercial product or service.
+
+AstroNova / HUELLA X upstream notice
+------------------------------------
+The directory astro/ preserves the AstroNova / HUELLA X project:
+  https://github.com/Beltranpcb/AstroNova
+  analyzed commit: 1253925ab13419b5d44db323548784c939a93a6e
+  event: NASA Space Apps Challenge 2026 - Planet X and SPHEREx
+
+At the time of analysis the upstream repository contained no LICENSE or
+COPYING file. The upstream owner confirmed that the code may be included in
+HuellaX as open code. It is preserved here with attribution and is NOT
+relicensed under the Apache License 2.0 that covers the original HuellaX /
+MoveScope work. Its static demo fields are synthetic and must not be presented
+as observations or validation evidence.
+
+See astro/UPSTREAM.md, INTEGRATION.md and THIRD_PARTY_NOTICES.md section 5.2
+for the full boundary. NASA does not endorse this project.
