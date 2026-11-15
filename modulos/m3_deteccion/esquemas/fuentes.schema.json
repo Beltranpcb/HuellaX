@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "contratos/fuentes.schema.json",
+  "title": "fuentes.json: fuentes detectadas con parejas propuestas",
+  "$comment": "ARCHIVO: contratos/fuentes.schema.json. ROL: fija la forma de fuentes.json: fuentes detectadas con parejas propuestas. PRODUCTOR: m3_deteccion/propuesta_parejas.py. CONSUMIDORES: m4_movimiento, m5_identificacion, m6_huella_espectral, m7_publicacion. RUTA REAL: datos/m3_deteccion/<campo>/fuentes.json. VERIFICACION: check-jsonschema --schemafile contratos/fuentes.schema.json <archivo>. No contiene lógica: solo describe datos.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version_contrato",
+    "campo",
+    "epocas",
+    "fuentes",
+    "parejas"
+  ],
+  "properties": {
+    "_comentario": {
+      "type": "string",
+      "description": "Comentario libre para humanos. Ningún consumidor lo lee."
+    },
+    "version_contrato": {
+      "const": "1",
+      "description": "Versión del contrato. Cambia solo en un PR propio avisado a los cuatro lotes."
+    },
+    "campo": {
+      "type": "string",
+      "description": "Identificador del campo: minúsculas, cifras, guion bajo.",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "epocas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "epoca_a",
+        "epoca_b",
+        "plantilla"
+      ],
+      "properties": {
+        "epoca_a": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mjd"
+          ],
+          "properties": {
+            "mjd": {
+              "type": "number",
+              "description": "Fecha de la exposición en días julianos modificados (MJD)."
+            }
+          }
+        },
+        "epoca_b": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mjd"
+          ],
+          "properties": {
+            "mjd": {
+              "type": "number",
+              "description": "Fecha de la exposición en días julianos modificados (MJD)."
+            }
+          }
+        },
+        "plantilla": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mjd"
+          ],
+          "properties": {
+            "mjd": {
+              "type": "number",
+              "description": "Fecha de la exposición en días julianos modificados (MJD)."
+            }
+          }
+        }
+      },
+      "description": "Fecha de cada imagen, copiada de meta.json."
+    },
+    "fuentes": {
+      "type": "array",
+      "description": "Todas las fuentes detectadas.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id_fuente",
+          "epoca",
+          "ra_grados",
+          "dec_grados",
+          "x",
+          "y",
+          "flujo_mjy",
+          "senal_ruido",
+          "incertidumbre_posicion_segarc",
+          "situacion"
+        ],
+        "properties": {
+          "id_fuente": {
+            "type": "string",
+            "description": "Identificador de la fuente dentro del campo.",
+            "pattern": "^[abt][0-9]{3}$"
+          },
+          "epoca": {
+            "description": "Imagen donde se detectó. El id empieza por a, b o t (plantilla).",
+            "enum": [
+              "epoca_a",
+              "epoca_b",
+              "plantilla"
+            ]
+          },
+          "ra_grados": {
+            "type": "number",
+            "description": "Ascensión recta ICRS en grados.",
+            "minimum": 0,
+            "maximum": 360
+          },
+          "dec_grados": {
+            "type": "number",
+            "description": "Declinación ICRS en grados.",
+            "minimum": -90,
+            "maximum": 90
+          },
+          "x": {
+            "type": "number",
+            "description": "Columna en la rejilla alineada, base 0, origen en la esquina inferior izquierda."
+          },
+          "y": {
+            "type": "number",
+            "description": "Fila en la rejilla alineada, base 0, origen en la esquina inferior izquierda."
+          },
+          "flujo_mjy": {
+            "type": "number",
+            "description": "Flujo en milijansky."
+          },
+          "senal_ruido": {
+            "type": "number",
+            "description": "Relación señal/ruido de la detección.",
+            "minimum": 0
+          },
+          "incertidumbre_posicion_segarc": {
+            "type": "number",
+            "description": "Anchura de la fuente entre 2,355 veces la señal/ruido, con mínimo 0,5.",
+            "minimum": 0.5
+          },
+          "situacion": {
+            "description": "estacionaria: fija en A, B, plantilla. huerfana: sin coincidencia. descartada: cae sobre píxeles marcados en FLAGS.",
+            "enum": [
+              "estacionaria",
+              "huerfana",
+              "descartada"
+            ]
+          }
+        }
+      }
+    },
+    "parejas": {
+      "type": "array",
+      "description": "Parejas A-B propuestas. Una pareja es una hipótesis, no un objeto confirmado.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id_pareja",
+          "id_fuente_a",
+          "id_fuente_b"
+        ],
+        "properties": {
+          "id_pareja": {
+            "type": "string",
+            "description": "Identificador de la pareja A-B dentro del campo.",
+            "pattern": "^p[0-9]{3}$"
+          },
+          "id_fuente_a": {
+            "type": "string",
+            "description": "Fuente huérfana de la época A.",
+            "pattern": "^a[0-9]{3}$"
+          },
+          "id_fuente_b": {
+            "type": "string",
+            "description": "Fuente huérfana de la época B.",
+            "pattern": "^b[0-9]{3}$"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "_comentario": "Ejemplo escrito a mano para probar cada módulo por separado. Valores inventados, sin valor científico. Contrato: contratos/campos.schema.json.",
+  "version_contrato": "1",
+  "campos": [
+    {
+      "campo": "campo_ejemplo",
+      "nombre": "Campo de ejemplo",
+      "ruta": "campo_ejemplo",
+      "numero_candidatos": 2
+    }
+  ]
+}

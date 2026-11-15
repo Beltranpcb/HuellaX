@@ -1,0 +1,29 @@
+{
+  "_comentario": "Ejemplo escrito a mano para probar cada módulo por separado. Valores inventados, sin valor científico. Contrato: contratos/identificacion.schema.json.",
+  "version_contrato": "1",
+  "campo": "campo_ejemplo",
+  "tolerancia_segarc": 15,
+  "identificaciones": [
+    {
+      "id_pareja": "p001",
+      "estado": "conocido",
+      "nombre_objeto": "Asteroide de ejemplo",
+      "catalogo": "jpl_sb_ident",
+      "posicion_predicha": {
+        "ra_grados": 150.0108,
+        "dec_grados": 2.0054
+      },
+      "distancia_segarc": 3.22,
+      "archivo_cache": "campo_ejemplo_p001.json"
+    },
+    {
+      "id_pareja": "p002",
+      "estado": "artefacto_descartado",
+      "nombre_objeto": null,
+      "catalogo": null,
+      "posicion_predicha": null,
+      "distancia_segarc": null,
+      "archivo_cache": "campo_ejemplo_p002.json"
+    }
+  ]
+}
