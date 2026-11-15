@@ -39,6 +39,24 @@ texto en chino. El runtime principal y sus datos SQLite viven en el submódulo
 `system/`.
 
 **Repositorio:** <https://github.com/Beltranpcb/HuellaX>
+**Sitio en vivo:** <https://huella-x.earth>
+
+## Sitio en vivo
+
+La demo pública está desplegada en **<https://huella-x.earth>** sobre AWS EC2
+(`eu-north-1`, Ubuntu 24.04, Nginx y HTTPS con renovación automática del certificado).
+
+| Entrada | URL |
+|---|---|
+| Página de entrada de HuellaX | <https://huella-x.earth/> |
+| Espacio de trabajo Sky View | <https://huella-x.earth/skyview/> |
+| MoveScope | <https://huella-x.earth/app/> |
+| Salud de la API de la app | <https://huella-x.earth/api/health> |
+
+La demo alojada usa los datos SQLite del proyecto y las mismas reglas
+candidate-first que la versión local. Es un entorno de demostración, no un
+servicio de descubrimientos: `no_match` y la ausencia de evidencia se reportan
+como tales.
 
 ---
 
@@ -235,7 +253,7 @@ BD 8797 · MoveScope 8790 · Sky View 8830
 
 ```bash
 ./scripts/serve_cover.sh
-# http://127.0.0.1:8840/
+# vista previa local en el puerto 8840
 ```
 
 ### Servicios de evidencia opcionales
@@ -246,11 +264,14 @@ submódulo principal contiene sus lanzadores y su runbook:
 - B en 8799 es necesario para la identificación en catálogo.
 - C en 8798 es necesario para cobertura/descubrimiento de campo arbitrario.
 
-Abrir:
+Abrir el sitio alojado:
 
-- entrada: <http://127.0.0.1:8840/>
-- MoveScope: <http://127.0.0.1:8790/>
-- Sky View: <http://127.0.0.1:8830/>
+- entrada: <https://huella-x.earth/>
+- MoveScope: <https://huella-x.earth/app/>
+- Sky View: <https://huella-x.earth/skyview/>
+
+El desarrollo local usa los puertos que muestra el lanzador; este README no
+publica ninguna dirección de servidor.
 
 Detener:
 
