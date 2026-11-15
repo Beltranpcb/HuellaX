@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HuellaX — MoveScope × AstroNova | SPHEREx candidate lab</title>
+<meta name="description" content="HuellaX merges MoveScope, a SQL-backed multi-epoch SPHEREx motion laboratory, with AstroNova/HUELLA X as a preserved legacy static demo. Candidates, not discoveries.">
+<meta name="theme-color" content="#05070d">
+<link rel="alternate" hreflang="en" href="?lang=en">
+<link rel="alternate" hreflang="es" href="?lang=es">
+<link rel="alternate" hreflang="x-default" href="./">
+<meta property="og:type" content="website">
+<meta property="og:title" content="HuellaX — MoveScope × AstroNova">
+<meta property="og:description" content="SQL is the primary data source. AstroNova static data is legacy/demo. Every result is a candidate, not a discovery.">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #05070d;
+    --bg-soft: #090d16;
+    --panel: rgba(13, 19, 31, 0.78);
+    --panel-strong: #0d1421;
+    --line: rgba(148, 178, 220, 0.16);
+    --line-strong: rgba(148, 190, 235, 0.30);
+    --text: #e9eff9;
+    --muted: #97a8c1;
+    --dim: #6f819b;
+    --cyan: #67e8f9;
+    --blue: #7dd3fc;
+    --amber: #f6c177;
+    --violet: #b9a4ff;
+    --green: #86efac;
+    --red: #fca5a5;
+    --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    --shadow: 0 26px 80px rgba(0, 0, 0, 0.55);
+    --radius: 18px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse 90% 65% at 72% -12%, rgba(19, 78, 120, 0.42), transparent 62%),
+      radial-gradient(ellipse 65% 55% at 4% 16%, rgba(93, 48, 120, 0.26), transparent 58%),
+      radial-gradient(ellipse 55% 45% at 48% 108%, rgba(12, 70, 82, 0.20), transparent 62%),
+      var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { color: var(--cyan); }
+  code, .mono { font-family: var(--mono); font-size: 0.92em; }
+  code { color: #c7e7ff; background: rgba(125, 211, 252, 0.09); border: 1px solid rgba(125, 211, 252, 0.14); padding: 0.10em 0.36em; border-radius: 6px; }
+  h1, h2, h3 { line-height: 1.1; letter-spacing: -0.025em; margin: 0; }
+  h2 { font-size: clamp(1.65rem, 3.4vw, 2.55rem); }
+  h3 { font-size: 1.05rem; letter-spacing: -0.01em; }
+  p { margin: 0; }
+  img { max-width: 100%; height: auto; display: block; }
+  ::selection { background: rgba(246, 193, 119, 0.30); color: #fff; }
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 6px; }
+
+  .skip {
+    position: absolute; left: 12px; top: -60px; z-index: 100;
+    background: var(--amber); color: #151007; padding: 10px 14px; border-radius: 8px;
+    font-weight: 650; text-decoration: none; transition: top 0.15s ease;
+  }
+  .skip:focus { top: 12px; }
+
+  #sky { position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; }
+  .stars { position: absolute; inset: -12%; background-repeat: repeat; opacity: 0.85; }
+  #stars1 { animation: drift-a 220s linear infinite; opacity: 0.9; }
+  #stars2 { animation: drift-b 320s linear infinite; opacity: 0.62; }
+  #stars3 { animation: drift-c 420s linear infinite; opacity: 0.40; }
+  #glow {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(600px 420px at 78% 8%, rgba(103, 232, 249, 0.075), transparent 70%),
+      radial-gradient(520px 380px at 12% 30%, rgba(185, 164, 255, 0.06), transparent 72%);
+  }
+  @keyframes drift-a { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-42px, 26px, 0); } }
+  @keyframes drift-b { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(30px, -22px, 0); } }
+  @keyframes drift-c { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-20px, -34px, 0); } }
+
+  .wrap { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    background: linear-gradient(to bottom, rgba(5, 7, 13, 0.92), rgba(5, 7, 13, 0.66));
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner { display: flex; align-items: center; gap: 22px; min-height: 64px; }
+  .brand { display: inline-flex; align-items: baseline; gap: 2px; color: var(--text); font-weight: 780; letter-spacing: -0.04em; font-size: 1.22rem; text-decoration: none; }
+  .brand span { color: var(--amber); }
+  .brand small { margin-left: 10px; color: var(--dim); font-weight: 500; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topnav { display: flex; gap: 20px; margin-left: auto; }
+  .topnav a { color: var(--muted); font-size: 0.84rem; text-decoration: none; }
+  .topnav a:hover { color: var(--text); }
+  .lang { display: inline-flex; align-items: center; gap: 1px; border: 1px solid var(--line); background: rgba(10, 16, 26, 0.7); border-radius: 999px; padding: 3px; }
+  .lang button {
+    appearance: none; border: 0; background: transparent; color: var(--muted);
+    font: inherit; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.08em;
+    padding: 5px 11px; border-radius: 999px; cursor: pointer;
+  }
+  .lang button[aria-pressed="true"] { background: rgba(125, 211, 252, 0.14); color: var(--cyan); }
+  .lang button:hover { color: var(--text); }
+
+  main { display: block; }
+  .hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(28px, 5vw, 64px); align-items: center; padding: clamp(40px, 6vw, 72px) 0 clamp(40px, 5vw, 64px); }
+  .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--amber); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 20px; }
+  .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 14px rgba(246, 193, 119, 0.8); }
+  h1 { font-size: clamp(2.75rem, 6.6vw, 5.8rem); letter-spacing: -0.055em; font-weight: 760; }
+  h1 .line { display: block; }
+  h1 em { font-style: normal; color: var(--amber); background: linear-gradient(105deg, var(--amber), #ffe7ba 55%, var(--cyan)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .lede { color: var(--muted); font-size: clamp(1rem, 1.35vw, 1.08rem); max-width: 60ch; margin-top: 18px; }
+  .lede strong { color: var(--text); font-weight: 620; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .chip { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: rgba(11, 17, 28, 0.72); color: var(--muted); border-radius: 999px; padding: 6px 11px; font-size: 0.73rem; font-family: var(--mono); letter-spacing: 0.02em; }
+  .chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--dim); }
+  .chip.primary { color: var(--green); border-color: rgba(134, 239, 172, 0.24); background: rgba(134, 239, 172, 0.07); }
+  .chip.primary::before { background: var(--green); box-shadow: 0 0 10px rgba(134, 239, 172, 0.6); }
+  .chip.legacy { color: var(--violet); border-color: rgba(185, 164, 255, 0.22); background: rgba(185, 164, 255, 0.06); }
+  .chip.legacy::before { background: var(--violet); }
+  .chip.boundary { color: var(--amber); border-color: rgba(246, 193, 119, 0.24); background: rgba(246, 193, 119, 0.06); }
+  .chip.boundary::before { background: var(--amber); }
+
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px; min-height: 44px;
+    padding: 10px 16px; border-radius: 11px; border: 1px solid var(--line-strong);
+    background: rgba(13, 20, 33, 0.88); color: var(--text); text-decoration: none;
+    font-size: 0.87rem; font-weight: 620; transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); border-color: rgba(125, 211, 252, 0.55); background: rgba(18, 28, 46, 0.95); color: #fff; }
+  .btn .key { color: var(--dim); font-family: var(--mono); font-size: 0.72rem; font-weight: 500; }
+  .btn-primary { background: linear-gradient(135deg, #f6c177, #e8a957); border-color: transparent; color: #1a1206; }
+  .btn-primary:hover { background: linear-gradient(135deg, #ffd28c, #f0b565); color: #120c04; }
+  .btn-primary .key { color: rgba(26, 18, 6, 0.62); }
+  .btn-legacy { border-color: rgba(185, 164, 255, 0.26); }
+  .btn-legacy:hover { border-color: rgba(185, 164, 255, 0.58); }
+  .micro { color: var(--dim); font-size: 0.77rem; margin-top: 16px; max-width: 62ch; }
+  .micro code { font-size: 0.86em; }
+
+  .preview {
+    position: relative; margin: 0; border: 1px solid var(--line-strong); border-radius: 16px;
+    background: linear-gradient(180deg, rgba(18, 27, 43, 0.94), rgba(8, 12, 20, 0.96));
+    box-shadow: var(--shadow); overflow: hidden; transform: rotate(-0.7deg);
+  }
+  .preview::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(125deg, rgba(255,255,255,0.06), transparent 34%, transparent 74%, rgba(103,232,249,0.05));
+  }
+  .preview-bar { display: flex; align-items: center; gap: 7px; padding: 10px 12px; border-bottom: 1px solid var(--line); color: var(--dim); font-family: var(--mono); font-size: 0.68rem; }
+  .preview-bar i { width: 8px; height: 8px; border-radius: 50%; background: #3a465a; display: inline-block; }
+  .preview-bar i:first-child { background: #6b4a4a; }
+  .preview-bar i:nth-child(2) { background: #6b614a; }
+  .preview-bar i:nth-child(3) { background: #4a6b55; }
+  .preview-url { margin-left: 7px; color: var(--muted); }
+  .preview img { width: 100%; border-bottom: 1px solid var(--line); }
+  .preview figcaption { padding: 11px 14px 13px; color: var(--muted); font-size: 0.75rem; line-height: 1.5; }
+  .preview-tag {
+    position: absolute; top: 46px; right: 12px; z-index: 2;
+    background: rgba(5, 7, 13, 0.82); border: 1px solid rgba(134, 239, 172, 0.30);
+    color: var(--green); border-radius: 999px; padding: 4px 9px;
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em;
+  }
+
+  .section { padding: clamp(36px, 5.5vw, 64px) 0; }
+  .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 26px; }
+  .section-head p { color: var(--muted); max-width: 62ch; margin-top: 10px; }
+  .kicker { color: var(--cyan); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 10px; }
+
+  .notice-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .notice {
+    border: 1px solid var(--line); border-radius: var(--radius); padding: 22px;
+    background: linear-gradient(180deg, rgba(14, 21, 35, 0.82), rgba(8, 12, 20, 0.72));
+  }
+  .notice .tag { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.10em; text-transform: uppercase; margin-bottom: 12px; }
+  .notice .tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .notice.good .tag { color: var(--green); }
+  .notice.legacy .tag { color: var(--violet); }
+  .notice.boundary .tag { color: var(--amber); }
+  .notice h3 { margin-bottom: 8px; font-size: 1.12rem; }
+  .notice p { color: var(--muted); font-size: 0.88rem; }
+  .notice p + p { margin-top: 9px; }
+
+  .arch-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+  .node {
+    grid-column: span 2; border: 1px solid var(--line); border-radius: 14px; padding: 18px;
+    background: rgba(10, 16, 27, 0.72); min-height: 132px;
+  }
+  .node:nth-child(4), .node:nth-child(5) { grid-column: span 3; }
+  .node-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+  .port { font-family: var(--mono); font-size: 0.7rem; color: var(--cyan); background: rgba(103, 232, 249, 0.09); border: 1px solid rgba(103, 232, 249, 0.18); border-radius: 6px; padding: 2px 7px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px rgba(134, 239, 172, 0.55); }
+  .dot.optional { background: var(--dim); box-shadow: none; }
+  .node h3 { font-size: 0.98rem; }
+  .node p { color: var(--muted); font-size: 0.79rem; margin-top: 6px; line-height: 1.5; }
+
+  .pipeline {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    border: 1px solid var(--line); border-radius: 12px; padding: 13px 16px; margin-top: 14px;
+    background: rgba(9, 14, 24, 0.66); font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+  }
+  .pipeline b { color: var(--text); font-weight: 600; }
+  .pipeline .arrow { color: var(--dim); }
+  .pipeline .hot { color: var(--cyan); }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+  .split-card { border: 1px solid var(--line); border-radius: 14px; padding: 20px; background: rgba(10, 16, 27, 0.66); }
+  .split-card h3 { display: flex; align-items: center; gap: 9px; }
+  .split-card h3 .badge { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 7px; border-radius: 5px; }
+  .split-card.primary h3 .badge { color: var(--green); background: rgba(134, 239, 172, 0.09); border: 1px solid rgba(134, 239, 172, 0.2); }
+  .split-card.legacy h3 .badge { color: var(--violet); background: rgba(185, 164, 255, 0.09); border: 1px solid rgba(185, 164, 255, 0.2); }
+  .split-card ul { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 7px; }
+  .split-card li { color: var(--muted); font-size: 0.84rem; padding-left: 16px; position: relative; }
+  .split-card li::before { content: "›"; position: absolute; left: 0; color: var(--dim); }
+  .split-card code { font-size: 0.85em; }
+
+  .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: rgba(9, 14, 24, 0.72); }
+  table { width: 100%; border-collapse: collapse; min-width: 780px; }
+  th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.10em; text-transform: uppercase; color: var(--dim); background: rgba(14, 21, 35, 0.7); }
+  tr:last-child td { border-bottom: 0; }
+  td { color: var(--muted); font-size: 0.8rem; }
+  td:first-child { color: var(--text); font-family: var(--mono); font-size: 0.75rem; white-space: nowrap; }
+  .status { display: inline-block; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.04em; padding: 2px 7px; border-radius: 5px; border: 1px solid var(--line); white-space: nowrap; }
+  .status.kept { color: var(--green); border-color: rgba(134, 239, 172, 0.24); background: rgba(134, 239, 172, 0.06); }
+  .status.replaced { color: var(--cyan); border-color: rgba(103, 232, 249, 0.24); background: rgba(103, 232, 249, 0.06); }
+  .status.notadopted { color: var(--amber); border-color: rgba(246, 193, 119, 0.24); background: rgba(246, 193, 119, 0.06); }
+  .status.absent { color: var(--dim); }
+
+  .docs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .doc {
+    display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--line); border-radius: 13px; padding: 17px;
+    background: rgba(10, 16, 27, 0.70); text-decoration: none; transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .doc:hover { border-color: rgba(125, 211, 252, 0.42); background: rgba(15, 23, 39, 0.86); }
+  .doc .name { color: var(--text); font-weight: 650; font-size: 0.93rem; }
+  .doc .desc { color: var(--muted); font-size: 0.79rem; }
+  .doc .meta { color: var(--dim); font-family: var(--mono); font-size: 0.64rem; margin-top: auto; padding-top: 6px; }
+
+  footer { border-top: 1px solid var(--line); margin-top: 30px; padding: 34px 0 42px; color: var(--dim); font-size: 0.78rem; }
+  .footer-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 26px; }
+  footer h4 { margin: 0 0 8px; color: var(--muted); font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  footer a { color: var(--muted); display: block; margin: 4px 0; text-decoration: none; }
+  footer a:hover { color: var(--cyan); }
+  footer p { max-width: 58ch; }
+  .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; border-top: 1px solid var(--line); margin-top: 26px; padding-top: 18px; color: var(--dim); font-size: 0.72rem; }
+  .footer-bottom code { font-size: 0.92em; }
+
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; }
+    .preview { max-width: 760px; }
+    .notice-grid { grid-template-columns: 1fr; }
+    .docs { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .topnav { display: none; }
+  }
+  @media (max-width: 720px) {
+    .wrap { width: min(100% - 28px, 1180px); }
+    .lang { margin-left: auto; }
+    .arch-grid { grid-template-columns: 1fr; }
+    .node, .node:nth-child(4), .node:nth-child(5) { grid-column: auto; }
+    .split { grid-template-columns: 1fr; }
+    .docs { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .section-head { display: block; }
+    .preview { transform: none; }
+    .brand small { display: none; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<div id="sky" aria-hidden="true"><div class="stars" id="stars1"></div><div class="stars" id="stars2"></div><div class="stars" id="stars3"></div></div>
+<div id="glow" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="./" aria-label="HuellaX home" data-i18n-aria="brand_label">Huella<span>X</span><small>MoveScope × AstroNova</small></a>
+    <nav class="topnav" aria-label="Primary" data-i18n-aria="nav_label">
+      <a href="#why" data-i18n="nav_why">Why it is honest</a>
+      <a href="#architecture" data-i18n="nav_arch">Architecture</a>
+      <a href="#mapping" data-i18n="nav_mapping">m1–m9 map</a>
+      <a href="#docs" data-i18n="nav_docs">Docs</a>
+      <a href="https://github.com/tonyelos/huella-x-simu" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Language" data-i18n-aria="lang_label">
+      <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-set-lang="es" aria-pressed="false">ES</button>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <section class="hero" aria-labelledby="hero-title">
+    <div>
+      <p class="eyebrow" data-i18n="eyebrow">NASA Space Apps Challenge 2026 · Planet X and SPHEREx</p>
+      <h1 id="hero-title">
+        <span class="line" data-i18n="hero_line_1">Two skies.</span>
+        <span class="line" data-i18n-html="hero_line_2">One <em>honest</em> pipeline.</span>
+      </h1>
+      <p class="lede" data-i18n-html="hero_lede">HuellaX integrates MoveScope — our SQL-backed, multi-epoch SPHEREx motion laboratory — with AstroNova/HUELLA X, the NASA Space Apps 2026 prototype preserved as a legacy static demo. One repository, two eras, one boundary: <strong>we report candidates, not discoveries.</strong></p>
+      <div class="cta">
+        <a class="btn btn-primary" href="http://127.0.0.1:8790/" target="_blank" rel="noopener"><span data-i18n="cta_app">Open MoveScope</span><span class="key">8790</span></a>
+        <a class="btn" href="http://127.0.0.1:8830/" target="_blank" rel="noopener"><span data-i18n="cta_view">Sky View</span><span class="key">8830</span></a>
+        <a class="btn btn-legacy" href="astro/modulos/m9_sitio/index.html"><span data-i18n="cta_legacy">Legacy AstroNova</span><span class="key">astro/</span></a>
+      </div>
+      <div class="chips" aria-label="Project boundaries" data-i18n-aria="chips_label">
+        <span class="chip primary" data-i18n="chip_sql">SQL is the primary data source</span>
+        <span class="chip legacy" data-i18n="chip_legacy">AstroNova static data is legacy/demo</span>
+        <span class="chip boundary" data-i18n="chip_boundary">Candidate, not discovery</span>
+      </div>
+      <p class="micro" data-i18n-html="hero_micro">All three services bind to <code>127.0.0.1</code> by default. The legacy page is a static demo: generate its synthetic fields first, then serve the repository root over HTTP. Neither is a public service.</p>
+    </div>
+
+    <figure class="preview">
+      <span class="preview-tag" data-i18n="preview_tag">LIVE SYSTEM</span>
+      <div class="preview-bar" aria-hidden="true"><i></i><i></i><i></i><span class="preview-url">127.0.0.1:8790 · MoveScope</span></div>
+      <figcaption data-i18n="preview_caption">MoveScope with real data: Epsilon Indi B, eight SPHEREx epochs over a 361-day baseline, 4.41″ measured displacement. The UI is currently Chinese; the integration adds English documentation and a bilingual cover.</figcaption>
+    </figure>
+  </section>
+
+  <section class="section" id="why" aria-labelledby="why-title">
+    <div class="section-head">
+      <div>
+        <p class="kicker" data-i18n="why_kicker">The integration contract</p>
+        <h2 id="why-title" data-i18n="why_title">What is primary, what is legacy, what never changes</h2>
+      </div>
+      <p data-i18n="why_intro">The merge is deliberately asymmetric. The live science and data path is MoveScope plus the SQL catalog. AstroNova is kept because its interaction and contract ideas are valuable — not because its demo data is evidence.</p>
+    </div>
+    <div class="notice-grid">
+      <article class="notice good">
+        <div class="tag" data-i18n="card_sql_tag">Source of truth</div>
+        <h3 data-i18n="card_sql_title">SQL is the primary data source</h3>
+        <p data-i18n-html="card_sql_body">Targets, epochs, coverage and cutout indexes live in the SQLite catalog and immutable blob store (<code>8797</code>). MoveScope resolves arbitrary coordinates through the <code>/api/v1/epochs</code> contract at runtime.</p>
+        <p data-i18n-html="card_sql_body2">Local JSON under <code>system/</code> is an explicit offline fallback for preset targets — never a second source of truth.</p>
+      </article>
+      <article class="notice legacy">
+        <div class="tag" data-i18n="card_legacy_tag">Preserved upstream</div>
+        <h3 data-i18n="card_legacy_title">AstroNova is legacy / demo</h3>
+        <p data-i18n-html="card_legacy_body"><code>astro/</code> preserves the AstroNova/HUELLA X static site and offline pipeline at upstream commit <code>1253925</code>. It is a UI and contract reference.</p>
+        <p data-i18n-html="card_legacy_body2">Its shipped fields are synthetic. They are not observations, not validation, and not the evidence behind any MoveScope result.</p>
+      </article>
+      <article class="notice boundary">
+        <div class="tag" data-i18n="card_boundary_tag">Scientific boundary</div>
+        <h3 data-i18n="card_boundary_title">Candidates, not discoveries</h3>
+        <p data-i18n-html="card_boundary_body">Every detection, track and catalog status is a <strong>candidate</strong>. The product carries <code>discovery_claim: false</code> and never converts “no catalog match” into “new star” or “new planet”.</p>
+        <p data-i18n="card_boundary_body2">No Planet X confirmation. No claim of a discovery. Unavailable or partial catalog results are reported as such, never as “not found”.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="architecture" aria-labelledby="arch-title">
+    <div class="section-head">
+      <div>
+        <p class="kicker" data-i18n="arch_kicker">Architecture</p>
+        <h2 id="arch-title" data-i18n="arch_title">One data plane, one measurement plane, one experience plane</h2>
+      </div>
+      <p data-i18n="arch_intro">The SQL catalog owns what was observed. MoveScope owns what the measurements mean. The view tool supplies sky context. The catalog service answers “is this known?” — it does not classify.</p>
+    </div>
+
+    <div class="arch-grid">
+      <article class="node">
+        <div class="node-top"><span class="port">8790</span><span class="dot"></span></div>
+        <h3 data-i18n="node_app_title">MoveScope app</h3>
+        <p data-i18n-html="node_app_desc">No-build browser UI plus <code>/api/analyze</code>, cascade, tracks and identify. Owns photometry, motion models and readiness L0–L3.</p>
+      </article>
+      <article class="node">
+        <div class="node-top"><span class="port">8797</span><span class="dot"></span></div>
+        <h3 data-i18n="node_db_title">SQL catalog</h3>
+        <p data-i18n-html="node_db_desc">SQLite metadata plus content-addressed blobs. Serves <code>/api/v1/epochs</code> and <code>/api/v1/coverage</code>; owns the single epoch truth.</p>
+      </article>
+      <article class="node">
+        <div class="node-top"><span class="port">8830</span><span class="dot optional"></span></div>
+        <h3 data-i18n="node_view_title">Sky View</h3>
+        <p data-i18n-html="node_view_desc">Optional 3D sky and Earth context. Sends one full-precision handoff URL with <code>ra</code>, <code>dec</code>, <code>fov</code>, <code>t0</code>, <code>t1</code>.</p>
+      </article>
+      <article class="node">
+        <div class="node-top"><span class="port">8799</span><span class="dot optional"></span></div>
+        <h3 data-i18n="node_catalog_title">Catalog service (B)</h3>
+        <p data-i18n-html="node_catalog_desc">Gaia DR3 field cache with 2MASS/WISE crossmatches. Returns <code>known</code>, <code>ambiguous</code>, <code>uncatalogued_candidate</code> or <code>unavailable</code>; read-only, no science classification.</p>
+      </article>
+      <article class="node">
+        <div class="node-top"><span class="port">8798</span><span class="dot optional"></span></div>
+        <h3 data-i18n="node_c_title">Coverage service (C)</h3>
+        <p data-i18n-html="node_c_desc">Any-field discovery, true header footprints and allowlisted S3/IRSA cutout fetch. Read-only catalog; writes only its own sidecar. Never invents SIM data.</p>
+      </article>
+    </div>
+
+    <div class="pipeline" aria-label="Primary data flow" data-i18n-aria="pipeline_label">
+      <span>IRSA / S3</span><span class="arrow">→</span><span class="hot" data-i18n="pipe_sql">SQL catalog 8797</span><span class="arrow">→</span><span>/api/v1/epochs</span><span class="arrow">→</span><span class="hot">MoveScope 8790</span><span class="arrow">→</span><span data-i18n="pipe_result">result + evidence + provenance</span><span class="arrow">→</span><span data-i18n="pipe_export">CSV / JSON audit export</span>
+    </div>
+
+    <div class="split">
+      <article class="split-card primary">
+        <h3><span data-i18n="split_primary_title">Primary runtime</span><span class="badge">system/</span></h3>
+        <ul>
+          <li data-i18n-html="split_primary_1"><code>system/</code> — MoveScope server, core pipeline, browser UI and tests</li>
+          <li data-i18n-html="split_primary_2"><code>system/</code> — SQL catalog (8797) and Gaia catalog service B (8799)</li>
+          <li data-i18n-html="split_primary_3"><code>system/</code> — coverage and discovery service C (8798)</li>
+          <li data-i18n-html="split_primary_4"><code>system/</code> — optional three.js sky view (8830)</li>
+          <li data-i18n-html="split_primary_5"><code>system/</code> — launcher, acceptance reports and architecture decisions</li>
+        </ul>
+      </article>
+      <article class="split-card legacy">
+        <h3><span data-i18n="split_legacy_title">Legacy reference</span><span class="badge">astro/</span></h3>
+        <ul>
+          <li data-i18n-html="split_legacy_1"><code>astro/modulos/m1–m7, m9</code> — offline Python pipeline and static site (m8 is absent upstream)</li>
+          <li data-i18n-html="split_legacy_2"><code>astro/contratos/</code> — JSON Schema contracts and golden examples</li>
+          <li data-i18n-html="split_legacy_3"><code>astro/ARQUITECTURA.md</code>, <code>README.md</code> — upstream architecture narrative</li>
+          <li data-i18n-html="split_legacy_4"><code>astro/UPSTREAM.md</code> — upstream SHA and attribution boundary</li>
+          <li data-i18n-html="split_legacy_5">Included by owner permission; not relicensed under our Apache-2.0</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="mapping" aria-labelledby="mapping-title">
+    <div class="section-head">
+      <div>
+        <p class="kicker" data-i18n="mapping_kicker">Integration map</p>
+        <h2 id="mapping-title" data-i18n="mapping_title">AstroNova m1–m9, mapped to the live system</h2>
+      </div>
+      <p data-i18n="mapping_intro">One row per upstream module. “Replaced” means the capability exists in the primary runtime with different code and stronger data semantics; it does not mean the upstream implementation was copied.</p>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="th_module">Upstream</th>
+            <th data-i18n="th_upstream">What it did</th>
+            <th data-i18n="th_primary">HuellaX counterpart</th>
+            <th data-i18n="th_status">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>m1</td>
+            <td data-i18n="m1_up">IRSA TAP/S3 acquisition, epoch selection</td>
+            <td data-i18n-html="m1_primary">SQL ingest (8797) + C discovery/fetch (8798); selection logic as a reference only</td>
+            <td><span class="status replaced" data-i18n="status_replaced">Replaced</span></td>
+          </tr>
+          <tr>
+            <td>m2</td>
+            <td data-i18n="m2_up">Zodiacal subtraction, common grid, PNG/meta</td>
+            <td data-i18n-html="m2_primary">MoveScope <code>core/wcs.py</code> and <code>reproject_to_common</code>; server-side rendering</td>
+            <td><span class="status replaced" data-i18n="status_replaced">Replaced</span></td>
+          </tr>
+          <tr>
+            <td>m3</td>
+            <td data-i18n="m3_up">DAOStarFinder detection, A/B pairing</td>
+            <td data-i18n-html="m3_primary">Matched filter, PSF/bloom centroid, FLAGS mask, reference-star calibration, source association</td>
+            <td><span class="status replaced" data-i18n="status_replaced">Replaced</span></td>
+          </tr>
+          <tr>
+            <td>m4</td>
+            <td data-i18n="m4_up">Two-epoch velocity, 2σ/5σ classes</td>
+            <td data-i18n-html="m4_primary">M0–M4 model family + BIC; readiness L0–L3; track candidates D0–D5</td>
+            <td><span class="status replaced" data-i18n="status_replaced">Replaced</span></td>
+          </tr>
+          <tr>
+            <td>m5</td>
+            <td data-i18n="m5_up">JPL sb_ident / MPChecker, 15″ match</td>
+            <td data-i18n-html="m5_primary">B (8799) Gaia/2MASS/WISE identity; SkyBoT idea borrowed, not integrated</td>
+            <td><span class="status kept" data-i18n="status_adapted">Adapted</span></td>
+          </tr>
+          <tr>
+            <td>m6</td>
+            <td data-i18n="m6_up">Planck fit, synthetic templates, molecular states</td>
+            <td data-i18n-html="m6_primary">No spectral classification in the primary runtime; the state vocabulary is reserved for future UI</td>
+            <td><span class="status notadopted" data-i18n="status_notadopted">Not adopted as evidence</span></td>
+          </tr>
+          <tr>
+            <td>m7</td>
+            <td data-i18n="m7_up">Static JSON/PNG publication</td>
+            <td data-i18n-html="m7_primary">SQL exports, v1 APIs, CSV/JSON audit export</td>
+            <td><span class="status notadopted" data-i18n="status_not_primary">Not primary</span></td>
+          </tr>
+          <tr>
+            <td>m8</td>
+            <td data-i18n="m8_up">Not present upstream</td>
+            <td data-i18n="m8_primary">No action</td>
+            <td><span class="status absent" data-i18n="status_absent">Absent</span></td>
+          </tr>
+          <tr>
+            <td>m9</td>
+            <td data-i18n="m9_up">Static web, SkyBoT, chart/3D views</td>
+            <td data-i18n-html="m9_primary">MoveScope 8790 + Sky View 8830; legacy site preserved at <code>astro/modulos/m9_sitio/</code></td>
+            <td><span class="status kept" data-i18n="status_legacy_kept">Preserved legacy</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="micro" data-i18n-html="mapping_more">Full rationale, SQL flow and the explicit not-adopted list: <a href="INTEGRATION.md">INTEGRATION.md</a>.</p>
+  </section>
+
+  <section class="section" id="docs" aria-labelledby="docs-title">
+    <div class="section-head">
+      <div>
+        <p class="kicker" data-i18n="docs_kicker">Read next</p>
+        <h2 id="docs-title" data-i18n="docs_title">Documentation without a build step</h2>
+      </div>
+      <p data-i18n="docs_intro">English is the primary language. Spanish is complete for this cover and the main README. The Chinese README is kept as a legacy MoveScope document, not as the entry point.</p>
+    </div>
+    <div class="docs">
+      <a class="doc" href="README.md"><span class="name" data-i18n="doc_readme">README (English)</span><span class="desc" data-i18n="doc_readme_desc">Architecture, ports, SQL flow, how to run, validation and limits.</span><span class="meta">README.md</span></a>
+      <a class="doc" href="README.es.md"><span class="name" data-i18n="doc_es">README (Español)</span><span class="desc" data-i18n="doc_es_desc">La versión completa en español del README principal.</span><span class="meta">README.es.md</span></a>
+      <a class="doc" href="INTEGRATION.md"><span class="name" data-i18n="doc_integration">Integration map</span><span class="desc" data-i18n="doc_integration_desc">m1–m9 mapping, data flow, ownership, upstream SHA, borrowed and not-adopted ideas.</span><span class="meta">INTEGRATION.md</span></a>
+      <a class="doc" href="astro/UPSTREAM.md"><span class="name" data-i18n="doc_upstream">Upstream boundary</span><span class="desc" data-i18n="doc_upstream_desc">AstroNova repository, analyzed SHA, owner permission and demo-data caveat.</span><span class="meta">astro/UPSTREAM.md</span></a>
+      <a class="doc" href="THIRD_PARTY_NOTICES.md"><span class="name" data-i18n-html="doc_notices">Licenses &amp; notices</span><span class="desc" data-i18n="doc_notices_desc">Apache-2.0 original work, third-party data, software and upstream attribution.</span><span class="meta">THIRD_PARTY_NOTICES.md</span></a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h4 data-i18n="footer_about_title">About this merge</h4>
+        <p data-i18n="footer_about">HuellaX is a candidate-first SPHEREx laboratory. The live system is MoveScope plus SQL-backed catalog services; AstroNova is a preserved NASA Space Apps 2026 upstream kept for its interaction and contract ideas. No NASA endorsement is implied.</p>
+      </div>
+      <div>
+        <h4 data-i18n="footer_repos_title">Repositories</h4>
+        <a href="https://github.com/tonyelos/huella-x-simu" target="_blank" rel="noopener" data-i18n="footer_primary_repo">Primary: tonyelos/huella-x-simu ↗</a>
+        <a href="https://github.com/Beltranpcb/HuellaX" target="_blank" rel="noopener" data-i18n="footer_target_repo">Integration target: Beltranpcb/HuellaX ↗</a>
+        <a href="https://github.com/Beltranpcb/AstroNova" target="_blank" rel="noopener" data-i18n="footer_upstream_repo">Upstream: Beltranpcb/AstroNova ↗</a>
+      </div>
+      <div>
+        <h4 data-i18n-html="footer_links_title">Services &amp; docs</h4>
+        <a href="http://127.0.0.1:8790/" target="_blank" rel="noopener" data-i18n="footer_move_scope">MoveScope · 8790 ↗</a>
+        <a href="http://127.0.0.1:8830/" target="_blank" rel="noopener" data-i18n="footer_sky_view">Sky View · 8830 ↗</a>
+        <a href="astro/modulos/m9_sitio/index.html" data-i18n="footer_legacy_link">Legacy AstroNova site</a>
+        <a href="LICENSE" data-i18n="footer_license">Apache-2.0 license</a>
+        <a href="NOTICE" data-i18n="footer_notice">NOTICE</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer_event">NASA Space Apps Challenge 2026 · Planet X and SPHEREx</span>
+      <span data-i18n-html="footer_sha">Upstream analyzed at <code>1253925ab13419b5d44db323548784c939a93a6e</code></span>
+    </div>
+  </footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  var I18N = {
+    en: {
+      page_title: "HuellaX — MoveScope × AstroNova | SPHEREx candidate lab",
+      page_desc: "HuellaX merges MoveScope, a SQL-backed multi-epoch SPHEREx motion laboratory, with AstroNova/HUELLA X as a preserved legacy static demo. Candidates, not discoveries.",
+      skip: "Skip to content",
+      lang_label: "Language",
+      brand_label: "HuellaX home",
+      pipe_sql: "SQL catalog 8797",
+      pipe_result: "result + evidence + provenance",
+      pipe_export: "CSV / JSON audit export",
+      footer_move_scope: "MoveScope · 8790 ↗",
+      footer_sky_view: "Sky View · 8830 ↗",
+      nav_label: "Primary",
+      chips_label: "Project boundaries",
+      pipeline_label: "Primary data flow",
+      nav_why: "Why it is honest",
+      nav_arch: "Architecture",
+      nav_mapping: "m1–m9 map",
+      nav_docs: "Docs",
+      eyebrow: "NASA Space Apps Challenge 2026 · Planet X and SPHEREx",
+      hero_line_1: "Two skies.",
+      hero_line_2: "One <em>honest</em> pipeline.",
+      hero_lede: "HuellaX integrates MoveScope — our SQL-backed, multi-epoch SPHEREx motion laboratory — with AstroNova/HUELLA X, the NASA Space Apps 2026 prototype preserved as a legacy static demo. One repository, two eras, one boundary: <strong>we report candidates, not discoveries.</strong>",
+      chip_sql: "SQL is the primary data source",
+      chip_legacy: "AstroNova static data is legacy/demo",
+      chip_boundary: "Candidate, not discovery",
+      cta_app: "Open MoveScope",
+      cta_view: "Sky View",
+      cta_legacy: "Legacy AstroNova",
+      hero_micro: "All three services bind to <code>127.0.0.1</code> by default. The legacy page is a static demo: generate its synthetic fields first, then serve the repository root over HTTP. Neither is a public service.",
+      preview_tag: "LIVE SYSTEM",
+      preview_alt: "MoveScope interface showing Epsilon Indi B over eight SPHEREx epochs",
+      preview_caption: "MoveScope with real data: Epsilon Indi B, eight SPHEREx epochs over a 361-day baseline, 4.41″ measured displacement. The UI is currently Chinese; the integration adds English documentation and a bilingual cover.",
+      why_kicker: "The integration contract",
+      why_title: "What is primary, what is legacy, what never changes",
+      why_intro: "The merge is deliberately asymmetric. The live science and data path is MoveScope plus the SQL catalog. AstroNova is kept because its interaction and contract ideas are valuable — not because its demo data is evidence.",
+      card_sql_tag: "Source of truth",
+      card_sql_title: "SQL is the primary data source",
+      card_sql_body: "Targets, epochs, coverage and cutout indexes live in the SQLite catalog and immutable blob store (<code>8797</code>). MoveScope resolves arbitrary coordinates through the <code>/api/v1/epochs</code> contract at runtime.",
+      card_sql_body2: "Local JSON under <code>system/</code> is an explicit offline fallback for preset targets — never a second source of truth.",
+      card_legacy_tag: "Preserved upstream",
+      card_legacy_title: "AstroNova is legacy / demo",
+      card_legacy_body: "<code>astro/</code> preserves the AstroNova/HUELLA X static site and offline pipeline at upstream commit <code>1253925</code>. It is a UI and contract reference.",
+      card_legacy_body2: "Its shipped fields are synthetic. They are not observations, not validation, and not the evidence behind any MoveScope result.",
+      card_boundary_tag: "Scientific boundary",
+      card_boundary_title: "Candidates, not discoveries",
+      card_boundary_body: "Every detection, track and catalog status is a <strong>candidate</strong>. The product carries <code>discovery_claim: false</code> and never converts “no catalog match” into “new star” or “new planet”.",
+      card_boundary_body2: "No Planet X confirmation. No claim of a discovery. Unavailable or partial catalog results are reported as such, never as “not found”.",
+      arch_kicker: "Architecture",
+      arch_title: "One data plane, one measurement plane, one experience plane",
+      arch_intro: "The SQL catalog owns what was observed. MoveScope owns what the measurements mean. The view tool supplies sky context. The catalog service answers “is this known?” — it does not classify.",
+      node_app_title: "MoveScope app",
+      node_app_desc: "No-build browser UI plus <code>/api/analyze</code>, cascade, tracks and identify. Owns photometry, motion models and readiness L0–L3.",
+      node_db_title: "SQL catalog",
+      node_db_desc: "SQLite metadata plus content-addressed blobs. Serves <code>/api/v1/epochs</code> and <code>/api/v1/coverage</code>; owns the single epoch truth.",
+      node_view_title: "Sky View",
+      node_view_desc: "Optional 3D sky and Earth context. Sends one full-precision handoff URL with <code>ra</code>, <code>dec</code>, <code>fov</code>, <code>t0</code>, <code>t1</code>.",
+      node_catalog_title: "Catalog service (B)",
+      node_catalog_desc: "Gaia DR3 field cache with 2MASS/WISE crossmatches. Returns <code>known</code>, <code>ambiguous</code>, <code>uncatalogued_candidate</code> or <code>unavailable</code>; read-only, no science classification.",
+      node_c_title: "Coverage service (C)",
+      node_c_desc: "Any-field discovery, true header footprints and allowlisted S3/IRSA cutout fetch. Read-only catalog; writes only its own sidecar. Never invents SIM data.",
+      split_primary_title: "Primary runtime",
+      split_primary_1: "<code>system/</code> — MoveScope server, core pipeline, browser UI and tests",
+      split_primary_2: "<code>system/</code> — SQL catalog (8797) and Gaia catalog service B (8799)",
+      split_primary_3: "<code>system/</code> — coverage and discovery service C (8798)",
+      split_primary_4: "<code>system/</code> — optional three.js sky view (8830)",
+      split_primary_5: "<code>system/</code> — launcher, acceptance reports and architecture decisions",
+      split_legacy_title: "Legacy reference",
+      split_legacy_1: "<code>astro/modulos/m1–m7, m9</code> — offline Python pipeline and static site (m8 is absent upstream)",
+      split_legacy_2: "<code>astro/contratos/</code> — JSON Schema contracts and golden examples",
+      split_legacy_3: "<code>astro/ARQUITECTURA.md</code>, <code>README.md</code> — upstream architecture narrative",
+      split_legacy_4: "<code>astro/UPSTREAM.md</code> — upstream SHA and attribution boundary",
+      split_legacy_5: "Included by owner permission; not relicensed under our Apache-2.0",
+      mapping_kicker: "Integration map",
+      mapping_title: "AstroNova m1–m9, mapped to the live system",
+      mapping_intro: "One row per upstream module. “Replaced” means the capability exists in the primary runtime with different code and stronger data semantics; it does not mean the upstream implementation was copied.",
+      th_module: "Upstream",
+      th_upstream: "What it did",
+      th_primary: "HuellaX counterpart",
+      th_status: "Status",
+      m1_up: "IRSA TAP/S3 acquisition, epoch selection",
+      m1_primary: "SQL ingest (8797) + C discovery/fetch (8798); selection logic as a reference only",
+      m2_up: "Zodiacal subtraction, common grid, PNG/meta",
+      m2_primary: "MoveScope <code>core/wcs.py</code> and <code>reproject_to_common</code>; server-side rendering",
+      m3_up: "DAOStarFinder detection, A/B pairing",
+      m3_primary: "Matched filter, PSF/bloom centroid, FLAGS mask, reference-star calibration, source association",
+      m4_up: "Two-epoch velocity, 2σ/5σ classes",
+      m4_primary: "M0–M4 model family + BIC; readiness L0–L3; track candidates D0–D5",
+      m5_up: "JPL sb_ident / MPChecker, 15″ match",
+      m5_primary: "B (8799) Gaia/2MASS/WISE identity; SkyBoT idea borrowed, not integrated",
+      m6_up: "Planck fit, synthetic templates, molecular states",
+      m6_primary: "No spectral classification in the primary runtime; the state vocabulary is reserved for future UI",
+      m7_up: "Static JSON/PNG publication",
+      m7_primary: "SQL exports, v1 APIs, CSV/JSON audit export",
+      m8_up: "Not present upstream",
+      m8_primary: "No action",
+      m9_up: "Static web, SkyBoT, chart/3D views",
+      m9_primary: "MoveScope 8790 + Sky View 8830; legacy site preserved at <code>astro/modulos/m9_sitio/</code>",
+      status_replaced: "Replaced",
+      status_adapted: "Adapted",
+      status_notadopted: "Not adopted as evidence",
+      status_not_primary: "Not primary",
+      status_absent: "Absent",
+      status_legacy_kept: "Preserved legacy",
+      mapping_more: "Full rationale, SQL flow and the explicit not-adopted list: <a href=\"INTEGRATION.md\">INTEGRATION.md</a>.",
+      docs_kicker: "Read next",
+      docs_title: "Documentation without a build step",
+      docs_intro: "English is the primary language. Spanish is complete for this cover and the main README. The Chinese README is kept as a legacy MoveScope document, not as the entry point.",
+      doc_readme: "README (English)",
+      doc_readme_desc: "Architecture, ports, SQL flow, how to run, validation and limits.",
+      doc_es: "README (Español)",
+      doc_es_desc: "La versión completa en español del README principal.",
+      doc_integration: "Integration map",
+      doc_integration_desc: "m1–m9 mapping, data flow, ownership, upstream SHA, borrowed and not-adopted ideas.",
+      doc_upstream: "Upstream boundary",
+      doc_upstream_desc: "AstroNova repository, analyzed SHA, owner permission and demo-data caveat.",
+      doc_notices: "Licenses &amp; notices",
+      doc_notices_desc: "Apache-2.0 original work, third-party data, software and upstream attribution.",
+      footer_about_title: "About this merge",
+      footer_about: "HuellaX is a candidate-first SPHEREx laboratory. The live system is MoveScope plus SQL-backed catalog services; AstroNova is a preserved NASA Space Apps 2026 upstream kept for its interaction and contract ideas. No NASA endorsement is implied.",
+      footer_repos_title: "Repositories",
+      footer_primary_repo: "Primary: tonyelos/huella-x-simu ↗",
+      footer_target_repo: "Integration target: Beltranpcb/HuellaX ↗",
+      footer_upstream_repo: "Upstream: Beltranpcb/AstroNova ↗",
+      footer_links_title: "Services &amp; docs",
+      footer_legacy_link: "Legacy AstroNova site",
+      footer_license: "Apache-2.0 license",
+      footer_notice: "NOTICE",
+      footer_event: "NASA Space Apps Challenge 2026 · Planet X and SPHEREx",
+      footer_sha: "Upstream analyzed at <code>1253925ab13419b5d44db323548784c939a93a6e</code>"
+    },
+    es: {
+      page_title: "HuellaX — MoveScope × AstroNova | laboratorio de candidatos SPHEREx",
+      page_desc: "HuellaX integra MoveScope, un laboratorio SQL de movimiento multiépoca con SPHEREx, con AstroNova/HUELLA X como demo estática legacy. Candidatos, no descubrimientos.",
+      skip: "Saltar al contenido",
+      lang_label: "Idioma",
+      brand_label: "Inicio de HuellaX",
+      pipe_sql: "catálogo SQL 8797",
+      pipe_result: "resultado + evidencia + procedencia",
+      pipe_export: "exportación de auditoría CSV / JSON",
+      footer_move_scope: "MoveScope · 8790 ↗",
+      footer_sky_view: "Vista del cielo · 8830 ↗",
+      nav_label: "Principal",
+      chips_label: "Límites del proyecto",
+      pipeline_label: "Flujo de datos principal",
+      nav_why: "Por qué es honesto",
+      nav_arch: "Arquitectura",
+      nav_mapping: "Mapa m1–m9",
+      nav_docs: "Documentación",
+      eyebrow: "NASA Space Apps Challenge 2026 · Planet X and SPHEREx",
+      hero_line_1: "Dos cielos.",
+      hero_line_2: "Un pipeline <em>honesto</em>.",
+      hero_lede: "HuellaX integra MoveScope —nuestro laboratorio SQL de movimiento multiépoca con SPHEREx— con AstroNova/HUELLA X, el prototipo de NASA Space Apps 2026 conservado como demo estática legacy. Un repositorio, dos eras, un límite: <strong>informamos candidatos, no descubrimientos.</strong>",
+      chip_sql: "SQL es la fuente de datos principal",
+      chip_legacy: "Los datos estáticos de AstroNova son legacy/demostración",
+      chip_boundary: "Candidato, no descubrimiento",
+      cta_app: "Abrir MoveScope",
+      cta_view: "Vista del cielo",
+      cta_legacy: "AstroNova legacy",
+      hero_micro: "Los tres servicios se enlazan a <code>127.0.0.1</code> por defecto. La página legacy es una demo estática: primero genera sus campos sintéticos y luego sirve la raíz del repositorio por HTTP. Ninguno es un servicio público.",
+      preview_tag: "SISTEMA EN VIVO",
+      preview_alt: "Interfaz de MoveScope mostrando Epsilon Indi B en ocho épocas de SPHEREx",
+      preview_caption: "MoveScope con datos reales: Epsilon Indi B, ocho épocas de SPHEREx en una línea base de 361 días y un desplazamiento medido de 4,41″. La interfaz aún está en chino; la integración añade documentación en inglés y una portada bilingüe.",
+      why_kicker: "El contrato de integración",
+      why_title: "Qué es principal, qué es legacy y qué nunca cambia",
+      why_intro: "La fusión es deliberadamente asimétrica. La ruta viva de ciencia y datos es MoveScope más el catálogo SQL. AstroNova se conserva por el valor de sus ideas de interacción y contrato, no porque sus datos de demo sean evidencia.",
+      card_sql_tag: "Fuente de verdad",
+      card_sql_title: "SQL es la fuente de datos principal",
+      card_sql_body: "Los objetivos, las épocas, la cobertura y los índices de recortes viven en el catálogo SQLite y en el almacén de blobs inmutable (<code>8797</code>). MoveScope resuelve coordenadas arbitrarias mediante el contrato <code>/api/v1/epochs</code> en tiempo de ejecución.",
+      card_sql_body2: "El JSON local de <code>system/</code> es un respaldo offline explícito para objetivos predefinidos; nunca una segunda fuente de verdad.",
+      card_legacy_tag: "Upstream preservado",
+      card_legacy_title: "AstroNova es legacy / demostración",
+      card_legacy_body: "<code>astro/</code> conserva el sitio estático y el pipeline offline de AstroNova/HUELLA X en el commit upstream <code>1253925</code>. Es una referencia de interfaz y de contratos.",
+      card_legacy_body2: "Sus campos publicados son sintéticos. No son observaciones, ni validación, ni la evidencia detrás de ningún resultado de MoveScope.",
+      card_boundary_tag: "Límite científico",
+      card_boundary_title: "Candidatos, no descubrimientos",
+      card_boundary_body: "Cada detección, trayectoria y estado de catálogo es un <strong>candidato</strong>. El producto declara <code>discovery_claim: false</code> y nunca convierte “sin coincidencia en catálogo” en “nueva estrella” o “nuevo planeta”.",
+      card_boundary_body2: "No se confirma el Planeta X. No se afirma un descubrimiento. Los resultados de catálogo parciales o no disponibles se informan como tales, nunca como “no encontrado”.",
+      arch_kicker: "Arquitectura",
+      arch_title: "Un plano de datos, uno de medida y uno de experiencia",
+      arch_intro: "El catálogo SQL posee lo observado. MoveScope posee lo que significan las medidas. La herramienta de vista aporta contexto de cielo. El servicio de catálogo responde “¿esto ya se conoce?”; no clasifica.",
+      node_app_title: "Aplicación MoveScope",
+      node_app_desc: "Interfaz sin build, más <code>/api/analyze</code>, cascade, tracks e identify. Posee fotometría, modelos de movimiento y readiness L0–L3.",
+      node_db_title: "Catálogo SQL",
+      node_db_desc: "Metadatos SQLite más blobs direccionados por contenido. Sirve <code>/api/v1/epochs</code> y <code>/api/v1/coverage</code>; posee la única verdad de épocas.",
+      node_view_title: "Vista del cielo",
+      node_view_desc: "Contexto 3D opcional de cielo y Tierra. Envía una URL de handoff con precisión completa: <code>ra</code>, <code>dec</code>, <code>fov</code>, <code>t0</code>, <code>t1</code>.",
+      node_catalog_title: "Servicio de catálogo (B)",
+      node_catalog_desc: "Caché por campo de Gaia DR3 con cruces 2MASS/WISE. Devuelve <code>known</code>, <code>ambiguous</code>, <code>uncatalogued_candidate</code> o <code>unavailable</code>; solo lectura, sin clasificación científica.",
+      node_c_title: "Servicio de cobertura (C)",
+      node_c_desc: "Descubrimiento de campos arbitrarios, huellas reales de cabeceras y descarga allowlisted de recortes S3/IRSA. Catálogo de solo lectura; escribe solo su sidecar. Nunca inventa datos SIM.",
+      split_primary_title: "Runtime principal",
+      split_primary_1: "<code>system/</code> — servidor MoveScope, pipeline central, interfaz y pruebas",
+      split_primary_2: "<code>system/</code> — catálogo SQL (8797) y servicio de catálogo Gaia B (8799)",
+      split_primary_3: "<code>system/</code> — servicio de cobertura y descubrimiento C (8798)",
+      split_primary_4: "<code>system/</code> — vista 3D opcional con three.js (8830)",
+      split_primary_5: "<code>system/</code> — lanzador, informes de aceptación y decisiones de arquitectura",
+      split_legacy_title: "Referencia legacy",
+      split_legacy_1: "<code>astro/modulos/m1–m7, m9</code> — pipeline Python offline y sitio estático (m8 no existe upstream)",
+      split_legacy_2: "<code>astro/contratos/</code> — contratos JSON Schema y ejemplos dorados",
+      split_legacy_3: "<code>astro/ARQUITECTURA.md</code>, <code>README.md</code> — narrativa de arquitectura upstream",
+      split_legacy_4: "<code>astro/UPSTREAM.md</code> — SHA upstream y límite de atribución",
+      split_legacy_5: "Incluido con permiso del propietario; no se relicencia bajo nuestra Apache-2.0",
+      mapping_kicker: "Mapa de integración",
+      mapping_title: "AstroNova m1–m9, mapeado al sistema vivo",
+      mapping_intro: "Una fila por módulo upstream. “Reemplazado” significa que la capacidad existe en el runtime principal con otro código y semántica de datos más fuerte; no significa que se copió la implementación upstream.",
+      th_module: "Upstream",
+      th_upstream: "Qué hacía",
+      th_primary: "Contraparte HuellaX",
+      th_status: "Estado",
+      m1_up: "Adquisición IRSA TAP/S3, selección de épocas",
+      m1_primary: "Ingesta SQL (8797) + descubrimiento/descarga C (8798); la lógica de selección es solo referencia",
+      m2_up: "Resta zodiacal, rejilla común, PNG/meta",
+      m2_primary: "<code>core/wcs.py</code> y <code>reproject_to_common</code> de MoveScope; renderizado en servidor",
+      m3_up: "Detección DAOStarFinder, emparejamiento A/B",
+      m3_primary: "Filtro adaptado, centroide PSF/bloom, máscara FLAGS, calibración relativa a estrellas de referencia y asociación de fuentes",
+      m4_up: "Velocidad de dos épocas, clases 2σ/5σ",
+      m4_primary: "Familia de modelos M0–M4 + BIC; readiness L0–L3; candidatos de trayectoria D0–D5",
+      m5_up: "JPL sb_ident / MPChecker, coincidencia a 15″",
+      m5_primary: "Identidad Gaia/2MASS/WISE en B (8799); la idea de SkyBoT se toma prestada, no está integrada",
+      m6_up: "Ajuste Planck, plantillas sintéticas, estados moleculares",
+      m6_primary: "Sin clasificación espectral en el runtime principal; el vocabulario de estados se reserva para una interfaz futura",
+      m7_up: "Publicación estática de JSON/PNG",
+      m7_primary: "Exportaciones SQL, APIs v1 y exportación de auditoría CSV/JSON",
+      m8_up: "No existe upstream",
+      m8_primary: "Sin acción",
+      m9_up: "Web estática, SkyBoT, vistas de gráficos/3D",
+      m9_primary: "MoveScope 8790 + Vista del cielo 8830; sitio legacy conservado en <code>astro/modulos/m9_sitio/</code>",
+      status_replaced: "Reemplazado",
+      status_adapted: "Adaptado",
+      status_notadopted: "No adoptado como evidencia",
+      status_not_primary: "No principal",
+      status_absent: "Ausente",
+      status_legacy_kept: "Legacy preservado",
+      mapping_more: "Justificación completa, flujo SQL y lista explícita de lo no adoptado: <a href=\"INTEGRATION.md\">INTEGRATION.md</a>.",
+      docs_kicker: "Sigue leyendo",
+      docs_title: "Documentación sin paso de build",
+      docs_intro: "El inglés es el idioma principal. El español está completo para esta portada y el README principal. El README chino se conserva como documento legacy de MoveScope, no como punto de entrada.",
+      doc_readme: "README (inglés)",
+      doc_readme_desc: "Arquitectura, puertos, flujo SQL, cómo ejecutar, validación y límites.",
+      doc_es: "README (Español)",
+      doc_es_desc: "La versión completa en español del README principal.",
+      doc_integration: "Mapa de integración",
+      doc_integration_desc: "Mapeo m1–m9, flujo de datos, propiedad, SHA upstream, ideas prestadas y no adoptadas.",
+      doc_upstream: "Límite upstream",
+      doc_upstream_desc: "Repositorio AstroNova, SHA analizado, permiso del propietario y advertencia sobre datos de demo.",
+      doc_notices: "Licencias y avisos",
+      doc_notices_desc: "Trabajo original Apache-2.0, datos y software de terceros, y atribución upstream.",
+      footer_about_title: "Sobre esta fusión",
+      footer_about: "HuellaX es un laboratorio SPHEREx centrado en candidatos. El sistema vivo es MoveScope más los servicios de catálogo SQL; AstroNova es un upstream de NASA Space Apps 2026 preservado por sus ideas de interacción y contrato. No se implica respaldo de NASA.",
+      footer_repos_title: "Repositorios",
+      footer_primary_repo: "Principal: tonyelos/huella-x-simu ↗",
+      footer_target_repo: "Destino de integración: Beltranpcb/HuellaX ↗",
+      footer_upstream_repo: "Upstream: Beltranpcb/AstroNova ↗",
+      footer_links_title: "Servicios y documentación",
+      footer_legacy_link: "Sitio AstroNova legacy",
+      footer_license: "Licencia Apache-2.0",
+      footer_notice: "NOTICE",
+      footer_event: "NASA Space Apps Challenge 2026 · Planet X and SPHEREx",
+      footer_sha: "Upstream analizado en <code>1253925ab13419b5d44db323548784c939a93a6e</code>"
+    }
+  };
+
+  function starTile(count, width, height, seed) {
+    var parts = [];
+    var s = seed >>> 0;
+    function rand() {
+      s = (s * 1664525 + 1013904223) >>> 0;
+      return s / 4294967296;
+    }
+    for (var i = 0; i < count; i += 1) {
+      var x = Math.round(rand() * width);
+      var y = Math.round(rand() * height);
+      var r = (rand() * 1.15 + 0.25).toFixed(2);
+      var a = (rand() * 0.55 + 0.18).toFixed(2);
+      parts.push("radial-gradient(" + r + "px " + r + "px at " + x + "px " + y + "px, rgba(220,235,255," + a + ") 0, rgba(220,235,255," + a + ") " + r + "px, transparent " + r + "px)");
+    }
+    return parts.join(",");
+  }
+
+  function paintSky() {
+    var layers = [
+      { id: "stars1", n: 170, w: 1200, h: 800, seed: 17 },
+      { id: "stars2", n: 110, w: 900, h: 620, seed: 91 },
+      { id: "stars3", n: 70, w: 700, h: 480, seed: 311 }
+    ];
+    for (var i = 0; i < layers.length; i += 1) {
+      var layer = layers[i];
+      var el = document.getElementById(layer.id);
+      if (!el) continue;
+      el.style.backgroundImage = starTile(layer.n, layer.w, layer.h, layer.seed);
+      el.style.backgroundSize = layer.w + "px " + layer.h + "px";
+    }
+  }
+
+  function readInitialLang() {
+    var params = new URLSearchParams(window.location.search);
+    var fromUrl = params.get("lang");
+    if (fromUrl === "en" || fromUrl === "es") return fromUrl;
+    try {
+      var stored = window.localStorage.getItem("huellax-lang");
+      if (stored === "en" || stored === "es") return stored;
+    } catch (err) { /* storage may be blocked */ }
+    return "en";
+  }
+
+  function applyLang(lang) {
+    var dict = I18N[lang] || I18N.en;
+    document.documentElement.lang = lang;
+    document.documentElement.setAttribute("data-lang", lang);
+    document.title = dict.page_title;
+    var desc = document.querySelector('meta[name="description"]');
+    if (desc) desc.setAttribute("content", dict.page_desc);
+    var ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute("content", dict.page_title);
+    var ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute("content", dict.page_desc);
+
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n");
+      if (Object.prototype.hasOwnProperty.call(dict, key)) el.textContent = dict[key];
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-html");
+      if (Object.prototype.hasOwnProperty.call(dict, key)) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-aria");
+      if (Object.prototype.hasOwnProperty.call(dict, key)) el.setAttribute("aria-label", dict[key]);
+    });
+    document.querySelectorAll("[data-i18n-alt]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-alt");
+      if (Object.prototype.hasOwnProperty.call(dict, key)) el.setAttribute("alt", dict[key]);
+    });
+    document.querySelectorAll("[data-set-lang]").forEach(function (btn) {
+      btn.setAttribute("aria-pressed", btn.getAttribute("data-set-lang") === lang ? "true" : "false");
+    });
+  }
+
+  function setLang(lang, updateUrl) {
+    if (lang !== "en" && lang !== "es") lang = "en";
+    try { window.localStorage.setItem("huellax-lang", lang); } catch (err) { /* ignore */ }
+    applyLang(lang);
+    if (updateUrl) {
+      try {
+        var url = new URL(window.location.href);
+        url.searchParams.set("lang", lang);
+        window.history.replaceState(null, "", url.pathname + url.search + url.hash);
+      } catch (err) { /* file:// or restricted history: language still applies */ }
+    }
+  }
+
+  paintSky();
+  var initialLang = readInitialLang();
+  applyLang(initialLang);
+  try { window.localStorage.setItem("huellax-lang", initialLang); } catch (err) { /* ignore */ }
+  document.querySelectorAll("[data-set-lang]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      setLang(btn.getAttribute("data-set-lang"), true);
+    });
+  });
+})();
+</script>
+</body>
+</html>

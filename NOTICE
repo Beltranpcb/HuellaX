@@ -1,0 +1,51 @@
+HuellaX / MoveScope
+
+Copyright 2026 huella-x contributors
+
+This product is licensed under the Apache License, Version 2.0.
+You may obtain a copy of the License at:
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Third-party software, data and media are NOT covered by the Apache License.
+Their licenses and attributions are listed in THIRD_PARTY_NOTICES.md; a
+submission-ready citation list is in REFERENCES.md.
+
+- three.js is distributed under the MIT License; its notice is preserved in the
+  primary submodule.
+- Earth imagery is credited to NASA Visible Earth / Blue Marble via the three.js
+  examples (MIT); NASA media guidelines apply.
+- SPHEREx level-2 data are from NASA/IPAC IRSA (QR3/DR1); NASA data are publicly
+  available and no NASA endorsement is implied.
+- Target coordinates are from SIMBAD/CDS; see THIRD_PARTY_NOTICES.md.
+- Reference materials in the primary submodule are NOT relicensed under
+  Apache-2.0; see that repository's notices.
+
+NASA Space Apps Challenge 2026 legal terms:
+  https://www.spaceappschallenge.org/legal/
+  https://www.spaceappschallenge.org/faq/
+
+NASA does not endorse this project or any commercial product or service.
+
+AstroNova / HUELLA X upstream notice
+------------------------------------
+The directory astro/ preserves the AstroNova / HUELLA X project:
+  https://github.com/Beltranpcb/AstroNova
+  analyzed commit: 1253925ab13419b5d44db323548784c939a93a6e
+  event: NASA Space Apps Challenge 2026 - Planet X and SPHEREx
+
+At the time of analysis the upstream repository contained no LICENSE or COPYING
+file. The upstream owner confirmed that the code may be included in HuellaX as
+open code. It is preserved here with attribution and is NOT relicensed under the
+Apache License 2.0 that covers the original HuellaX / MoveScope work. Its static
+demo fields are synthetic and must not be presented as observations or validation
+evidence.
+
+See astro/UPSTREAM.md, INTEGRATION.md and THIRD_PARTY_NOTICES.md for the full
+boundary. NASA does not endorse this project.

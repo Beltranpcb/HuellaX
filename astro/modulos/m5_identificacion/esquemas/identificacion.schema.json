@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "contratos/identificacion.schema.json",
+  "title": "identificacion.json: estado de catálogo de cada pareja",
+  "$comment": "ARCHIVO: contratos/identificacion.schema.json. ROL: fija la forma de identificacion.json: estado de catálogo de cada pareja. PRODUCTOR: m5_identificacion/cruce_posicional.py. CONSUMIDORES: m7_publicacion. RUTA REAL: datos/m5_identificacion/<campo>/identificacion.json. VERIFICACION: check-jsonschema --schemafile contratos/identificacion.schema.json <archivo>. No contiene lógica: solo describe datos. AMPLIACION COMPATIBLE: catalogo admite gaia_dr3; clase_objeto, veredicto, mjd_consulta y coincidencias opcionales.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version_contrato",
+    "campo",
+    "tolerancia_segarc",
+    "identificaciones"
+  ],
+  "properties": {
+    "_comentario": {
+      "type": "string",
+      "description": "Comentario libre para humanos. Ningún consumidor lo lee."
+    },
+    "version_contrato": {
+      "const": "1",
+      "description": "Versión del contrato. Cambia solo en un PR propio avisado a los cuatro lotes."
+    },
+    "campo": {
+      "type": "string",
+      "description": "Identificador del campo: minúsculas, cifras, guion bajo.",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "tolerancia_segarc": {
+      "type": "number",
+      "description": "Distancia máxima para aceptar una coincidencia. Valor inicial: 15.",
+      "exclusiveMinimum": 0
+    },
+    "identificaciones": {
+      "type": "array",
+      "description": "Una entrada por cada pareja no estacionaria.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id_pareja",
+          "estado",
+          "nombre_objeto",
+          "catalogo",
+          "posicion_predicha",
+          "distancia_segarc",
+          "archivo_cache"
+        ],
+        "properties": {
+          "id_pareja": {
+            "type": "string",
+            "description": "Identificador de la pareja A-B dentro del campo.",
+            "pattern": "^p[0-9]{3}$"
+          },
+          "estado": {
+            "description": "conocido: hay un objeto catalogado dentro de la tolerancia. sin_identificar: pareja candidata sin coincidencia. artefacto_descartado: pareja no_concluyente sin coincidencia.",
+            "enum": [
+              "conocido",
+              "sin_identificar",
+              "artefacto_descartado"
+            ]
+          },
+          "nombre_objeto": {
+            "description": "Nombre del objeto catalogado. Nulo si no hay coincidencia.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "catalogo": {
+            "description": "Servicio que dio la coincidencia.",
+            "enum": [
+              "jpl_sb_ident",
+              "mpchecker",
+              "gaia_dr3",
+              null
+            ]
+          },
+          "posicion_predicha": {
+            "additionalProperties": false,
+            "required": [
+              "ra_grados",
+              "dec_grados"
+            ],
+            "properties": {
+              "ra_grados": {
+                "type": "number",
+                "description": "Ascensión recta ICRS en grados.",
+                "minimum": 0,
+                "maximum": 360
+              },
+              "dec_grados": {
+                "type": "number",
+                "description": "Declinación ICRS en grados.",
+                "minimum": -90,
+                "maximum": 90
+              }
+            },
+            "description": "Posición predicha por el catálogo en la fecha de la época A.",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "distancia_segarc": {
+            "description": "Distancia entre posición predicha y observada.",
+            "minimum": 0,
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "archivo_cache": {
+            "type": "string",
+            "description": "Respuesta guardada, relativa a datos/m5_identificacion/cache/."
+          },
+          "clase_objeto": {
+            "description": "Clase catalogada del objeto, según la fuente que la aporta. desconocida si ningún catálogo la da.",
+            "enum": [
+              "asteroide",
+              "cometa",
+              "planeta_enano",
+              "estrella",
+              "enana_marron",
+              "galaxia",
+              "desconocida",
+              null
+            ]
+          },
+          "veredicto": {
+            "description": "coincidencia_compatible: una coincidencia dentro de la tolerancia. coincidencia_ambigua: varias. sin_coincidencia_concluyente: ninguna; no equivale a un objeto nuevo.",
+            "enum": [
+              "coincidencia_compatible",
+              "coincidencia_ambigua",
+              "sin_coincidencia_concluyente"
+            ]
+          },
+          "mjd_consulta": {
+            "type": "number",
+            "description": "Fecha usada en la efeméride, imprescindible en cuerpos móviles."
+          },
+          "coincidencias": {
+            "type": "array",
+            "description": "Todas las coincidencias dentro de la tolerancia, ordenadas por distancia creciente.",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "nombre",
+                "catalogo",
+                "distancia_segarc"
+              ],
+              "properties": {
+                "nombre": {
+                  "type": "string"
+                },
+                "designacion": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Número o designación oficial, por ejemplo 4 o 1P."
+                },
+                "catalogo": {
+                  "enum": [
+                    "jpl_sb_ident",
+                    "mpchecker",
+                    "gaia_dr3"
+                  ]
+                },
+                "clase_objeto": {
+                  "description": "Clase catalogada del objeto, según la fuente que la aporta. desconocida si ningún catálogo la da.",
+                  "enum": [
+                    "asteroide",
+                    "cometa",
+                    "planeta_enano",
+                    "estrella",
+                    "enana_marron",
+                    "galaxia",
+                    "desconocida",
+                    null
+                  ]
+                },
+                "ra_grados": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 360
+                },
+                "dec_grados": {
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "distancia_segarc": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "incertidumbre_segarc": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0
+                },
+                "enlace": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "URL de la fuente, si existe."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
