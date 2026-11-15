@@ -19,9 +19,9 @@ submission-ready citation list is in REFERENCES.md.
 
 - three.js is distributed under the MIT License; its notice is preserved in the
   primary submodule.
-- Earth imagery is credited to NASA Visible Earth / Blue Marble and NASA Earth
-  Observatory night lights via three.js example textures (MIT); see
-  assets/ATTRIBUTION.md; NASA media guidelines apply.
+- Earth visual reference: God's Eye View by Bilawal Sidhu, MIT for source code
+  (Copyright (c) 2026 Bilawal Sidhu); third-party imagery keeps its own terms.
+  See assets/ATTRIBUTION.md. NASA does not endorse this project.
 - SPHEREx level-2 data are from NASA/IPAC IRSA (QR3/DR1); NASA data are publicly
   available and no NASA endorsement is implied.
 - Target coordinates are from SIMBAD/CDS; see THIRD_PARTY_NOTICES.md.

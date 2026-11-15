@@ -328,7 +328,7 @@ NASA does not endorse this project or any commercial product or service.
 
 - Original MoveScope/HuellaX work: **Apache-2.0**, see [`LICENSE`](LICENSE).
 - Third-party data/software: see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
-- Earth texture attribution: [`assets/ATTRIBUTION.md`](assets/ATTRIBUTION.md).
+- Earth visual attribution (God's Eye View; imagery terms): [`assets/ATTRIBUTION.md`](assets/ATTRIBUTION.md).
 - References: [`REFERENCES.md`](REFERENCES.md).
 - Integration design: [`INTEGRATION.md`](INTEGRATION.md).
 - Repository: <https://github.com/Beltranpcb/HuellaX>

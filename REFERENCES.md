@@ -20,7 +20,8 @@
 
 8. Astropy Collaboration, Astropy, a community Python library for astronomy.
 9. three.js r160, MIT License.
-10. NASA Visible Earth / Blue Marble imagery, NASA.
+10. God's Eye View, Bilawal Sidhu, <https://github.com/bilawalsidhu/gods-eye-view>;
+    MIT for source code, third-party imagery under provider terms.
 
 ## Upstream project
 

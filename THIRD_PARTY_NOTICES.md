@@ -32,9 +32,14 @@ catalogues. Catalogue non-matches are `no_match`, not discoveries.
 
 ## 4. Media
 
-- Earth imagery: NASA Visible Earth / Blue Marble and NASA Earth Observatory
-  night lights, via three.js example textures (MIT); NASA media guidelines apply.
-  Exact files and code-provenance notes: [`assets/ATTRIBUTION.md`](assets/ATTRIBUTION.md).
+- Earth visual reference: **God's Eye View** by Bilawal Sidhu,
+  <https://github.com/bilawalsidhu/gods-eye-view>, MIT License for source code,
+  Copyright (c) 2026 Bilawal Sidhu. God's Eye View states that third-party
+  imagery (including Google Maps) remains under its own terms and is not
+  relicensed by MIT. See [`assets/ATTRIBUTION.md`](assets/ATTRIBUTION.md).
+- Exact Earth texture files: `assets/earth.jpg`, `assets/earth-lights.png`.
+  Their image rights remain with the original imagery provider; confirm before
+  commercial redistribution.
 - Screenshots and diagrams in this repository are project documentation.
 
 ## 5. NASA Space Apps Challenge
