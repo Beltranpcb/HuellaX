@@ -6,6 +6,27 @@
 <title>HUELLA X — no solo vemos qué se mueve, sabemos de qué está hecho</title>
 <meta name="description" content="Explorador de SPHEREx: detección temporal, verificación en catálogos y huella espectral de los objetos que cambian en el cielo.">
 <link rel="stylesheet" href="estilo.css">
+<style>
+  /* Aviso de integración (módulo heredado). No modifica los estilos del upstream. */
+  #legacy-aviso {
+    margin: 0;
+    padding: .55rem 1rem;
+    background: #14100a;
+    border-bottom: 1px solid #4A3A22;
+    color: var(--texto_secundario, #8B95A7);
+    font-size: .72rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+  #legacy-aviso p { margin: .15rem 0; }
+  #legacy-aviso strong { color: var(--texto, #E6EAF2); white-space: nowrap; }
+  #legacy-aviso a { color: var(--acento, #FFB347); text-decoration: underline; white-space: nowrap; }
+  #legacy-aviso a:hover { color: #ffc266; }
+  #legacy-aviso .legacy-enlaces { font-size: .7rem; }
+  @media (max-width: 600px) {
+    #legacy-aviso { padding: .5rem .85rem; font-size: .7rem; text-align: left; }
+  }
+</style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
 <!-- Aladin Lite v3 se publica como módulo ES: se importa y se expone como
      window.A, avisando con el evento «aladin-listo» cuando ya se puede usar. -->
@@ -22,6 +43,32 @@
 </script>
 </head>
 <body>
+
+<!-- Aviso de integración: módulo heredado. La interfaz original no se modifica. -->
+<section id="legacy-aviso" role="note" aria-label="Legacy demo notice / Aviso de demo heredada">
+  <p lang="en">
+    <strong>Legacy demo.</strong> AstroNova / HUELLA X upstream (NASA Space Apps
+    2026). Demo data are <strong>synthetic</strong>; real-data/Gaia validation
+    is pending. The primary HuellaX app uses <strong>MoveScope + SQL</strong>.
+  </p>
+  <p lang="es">
+    <strong>Demo heredada.</strong> Upstream AstroNova / HUELLA X (NASA Space
+    Apps 2026). Los datos de la demo son <strong>sintéticos</strong>; la
+    validación con datos reales/Gaia está pendiente. La app principal de HuellaX
+    usa <strong>MoveScope + SQL</strong>.
+  </p>
+  <p class="legacy-enlaces">
+    <a href="../../../系统/app/web/index.html">MoveScope app</a>
+    <span aria-hidden="true"> · </span>
+    <a href="../../../README.md">repo cover / portada</a>
+    <span aria-hidden="true"> · </span>
+    <a href="https://github.com/Beltranpcb/HuellaX">GitHub · HuellaX (primary)</a>
+    <span aria-hidden="true"> · </span>
+    <a href="https://github.com/Beltranpcb/AstroNova">GitHub · AstroNova (upstream)</a>
+    <span aria-hidden="true"> · </span>
+    <a href="../../LEGACY.md">Notes / Notas</a>
+  </p>
+</section>
 
 <!-- ------------------------------------------------------------- Portada -->
 <section id="portada">
