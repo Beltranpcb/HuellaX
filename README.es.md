@@ -111,13 +111,13 @@ estrella” o “nuevo planeta”.
 
 ## 3. Estado actual
 
-La suite de pruebas del lado de la app tiene actualmente **291 pruebas**:
+La suite de pruebas del lado de la app tiene actualmente **298 pruebas**:
 
 ```bash
 PY=/Users/yiao/.dsh/dsh-runtimes/dsh-primary-runtime/dependencies/python/bin/python3
 cd 系统/app
 $PY -m unittest discover -s tests
-# Ran 291 tests ... OK
+# Ran 298 tests ... OK
 ```
 
 Capacidades recientes:
@@ -622,7 +622,7 @@ del índice local de DB/C y se informa como `NO_LOCAL_COVERAGE` o
 PY=/Users/yiao/.dsh/dsh-runtimes/dsh-primary-runtime/dependencies/python/bin/python3
 cd 系统/app
 $PY -m unittest discover -s tests -v
-# Ran 291 tests ... OK
+# Ran 298 tests ... OK
 ```
 
 La cobertura incluye: modos sample/real, validación de FOV, caché y LRU,

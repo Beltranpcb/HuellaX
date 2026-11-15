@@ -104,7 +104,7 @@ different data source and stronger data semantics.
 | Identity | JPL/MPC small bodies only | Gaia/2MASS/WISE stars and galaxies; solar-system cross-check idea from SkyBoT |
 | Provenance | `origen` field in static JSON | `REAL/HYBRID/SIM/SAMPLE`, `fallback_reason`, quality flags, `discovery_claim: false` |
 | Delivery | Pre-generated JSON/PNG, static site | Live HTTP APIs, SQL exports, CSV/JSON audit attachments |
-| Validation | Synthetic module tests | 291 app tests, SQL contract tests, benchmark targets, injection-recovery |
+| Validation | Synthetic module tests | 298 app tests, SQL contract tests, benchmark targets, injection-recovery |
 
 ### 3.2 Module-by-module notes
 

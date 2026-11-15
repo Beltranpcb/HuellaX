@@ -249,6 +249,7 @@ hx_cover_dir() {
   fi
   # 新封面（cover 分支）优先；旧目录名只作为兼容。
   for cand in \
+    "$LAUNCHER_ROOT_DIR" \
     "$LAUNCHER_ROOT_DIR/cover" \
     "$LAUNCHER_ROOT_DIR/portada" \
     "$LAUNCHER_ROOT_DIR/封面" \

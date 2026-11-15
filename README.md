@@ -108,13 +108,13 @@ match” means “uncatalogued candidate”, never “new star” or “new plan
 
 ## 3. Current status
 
-The app-side test suite currently has **291 tests**:
+The app-side test suite currently has **298 tests**:
 
 ```bash
 PY=/Users/yiao/.dsh/dsh-runtimes/dsh-primary-runtime/dependencies/python/bin/python3
 cd 系统/app
 $PY -m unittest discover -s tests
-# Ran 291 tests ... OK
+# Ran 298 tests ... OK
 ```
 
 Recent capabilities:
@@ -603,7 +603,7 @@ reported as `NO_LOCAL_COVERAGE` or `DB_UNAVAILABLE` when absent.
 PY=/Users/yiao/.dsh/dsh-runtimes/dsh-primary-runtime/dependencies/python/bin/python3
 cd 系统/app
 $PY -m unittest discover -s tests -v
-# Ran 291 tests ... OK
+# Ran 298 tests ... OK
 ```
 
 Coverage includes: sample/real modes, FOV validation, caching and LRU,
