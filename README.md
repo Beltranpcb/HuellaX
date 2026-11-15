@@ -327,6 +327,7 @@ NASA does not endorse this project or any commercial product or service.
 ## 12. License and links
 
 - Original MoveScope/HuellaX work: **Apache-2.0**, see [`LICENSE`](LICENSE).
+- Copyright 2026 Yiao Tang and Beltranpcb / HuellaX contributors.
 - Third-party data/software: see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 - Earth visual attribution (God's Eye View; imagery terms): [`assets/ATTRIBUTION.md`](assets/ATTRIBUTION.md).
 - References: [`REFERENCES.md`](REFERENCES.md).
