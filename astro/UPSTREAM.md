@@ -13,10 +13,11 @@ integration.
 - Status: legacy / reference; static web demo plus an offline Python pipeline.
   Demo fields and examples are synthetic; real SPHEREx-data and Gaia validation
   were still pending at merge time.
-- Permission: the owner confirmed this code may be included in HuellaX. No
-  separate license is asserted for this module beyond that permission.
+- Ownership: AstroNova is the HuellaX team's own earlier project, published
+  under the same GitHub account. It was merged into HuellaX to combine its
+  features with MoveScope and is covered by the repository's Apache-2.0 license.
 - Attribution: design, Spanish copy, demo data and pipeline are from the
-  AstroNova / HUELLA X team. Keep the upstream paths, source and this file.
+  AstroNova / HUELLA X team. Keep the original paths, source and this file.
 
 The primary HuellaX runtime (MoveScope + SQL catalog services) lives in
 `system/`; AstroNova is kept as a functional upstream/reference, not as the

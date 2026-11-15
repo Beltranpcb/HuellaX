@@ -27,8 +27,8 @@ catalogues. Catalogue non-matches are `no_match`, not discoveries.
 
 - three.js r160: MIT License; notice preserved in the primary submodule.
 - Python, Astropy and related dependencies: their respective licenses.
-- AstroNova / HUELLA X upstream: preserved with attribution; no LICENSE file at
-  merge time; owner confirmed inclusion; not relicensed under Apache-2.0.
+- AstroNova / HUELLA X (`astro/`) is not third-party software: it is the team's
+  own earlier project, merged into HuellaX and covered by its Apache-2.0 license.
 
 ## 4. Media
 

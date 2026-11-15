@@ -31,11 +31,11 @@ The project combines:
   selection, an analysis time window, and one explicit handoff to MoveScope.
 - **Evidence modules inside Sky View** — SkyBoT and an instrument band atlas.
   Each has a clearly stated evidential boundary; the 3D globe is the workspace itself.
-- **AstroNova / HUELLA X** — the NASA Space Apps Challenge 2026 prototype,
-  preserved under `astro/` as a legacy reference, never as the primary data path.
+- **AstroNova / HUELLA X** — our team's earlier NASA Space Apps Challenge 2026
+  project, merged into HuellaX under `astro/`. It is kept as a legacy reference,
+  never as the primary data path.
 
-The public envelope of this repository is English/Spanish and contains no
-Chinese text. The primary runtime and its SQLite data live in the `system/`
+The repository is documented in English and Spanish. The primary runtime and its SQLite data live in the `system/`
 submodule.
 
 **Repository:** <https://github.com/Beltranpcb/HuellaX>
@@ -328,17 +328,19 @@ Its real-data and Gaia validation was pending at merge time.
 
 ## 11. AstroNova legacy
 
-`astro/` preserves the AstroNova / HUELLA X upstream:
+AstroNova / HUELLA X is **our own earlier project**: the same team built it for
+the NASA Space Apps Challenge 2026 (Planet X and SPHEREx) and published it under
+the same GitHub account as HuellaX:
 
 - <https://github.com/Beltranpcb/AstroNova>
-- commit `1253925ab13419b5d44db323548784c939a93a6e`
-- NASA Space Apps Challenge 2026, Planet X and SPHEREx
+- merged commit `1253925ab13419b5d44db323548784c939a93a6e`
 
-At merge time the upstream had no LICENSE file. The owner confirmed that the
-code may be included as open code. It is preserved with attribution and is **not
-relicensed** under the Apache License 2.0 that covers the original MoveScope
-work. See [`astro/LEGACY.md`](astro/LEGACY.md), [`astro/UPSTREAM.md`](astro/UPSTREAM.md)
-and [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+HuellaX is the result of merging the two projects: we brought AstroNova and
+MoveScope together in one repository to combine their features. `astro/` keeps
+the AstroNova code, Spanish UI and pipeline as they were. Because it is our own
+work, it is covered by the same Apache License 2.0 as the rest of the
+repository. See [`astro/LEGACY.md`](astro/LEGACY.md) and
+[`astro/UPSTREAM.md`](astro/UPSTREAM.md).
 
 NASA does not endorse this project or any commercial product or service.
 
@@ -346,8 +348,8 @@ NASA does not endorse this project or any commercial product or service.
 
 ## 12. License and links
 
-- Original MoveScope/HuellaX work: **Apache-2.0**, see [`LICENSE`](LICENSE).
-- Copyright 2026 Yiao Tang and Beltranpcb / HuellaX contributors.
+- HuellaX, MoveScope and AstroNova (`astro/`): **Apache-2.0**, see [`LICENSE`](LICENSE).
+- Copyright 2026 Yiao Tang, Beltranpcb and Hind Bouguerra / HuellaX contributors.
 - Third-party data/software: see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 - Earth visual attribution (God's Eye View; imagery terms): [`assets/ATTRIBUTION.md`](assets/ATTRIBUTION.md).
 - References: [`REFERENCES.md`](REFERENCES.md).

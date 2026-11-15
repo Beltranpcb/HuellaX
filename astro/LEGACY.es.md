@@ -17,11 +17,12 @@ Este módulo no es el runtime SQL principal ni la vía de datos/ciencia soportad
 | Origen | Equipo AstroNova, NASA Space Apps Challenge 2026, reto SPHEREx / Planeta X |
 | Idioma original | Español (interfaz de la demo, documentación, comentarios y nombres de campo) |
 | Integración | copiado a `astro/`; se conservan rutas, código y textos originales |
-| Permiso | incluido con permiso del propietario del repositorio |
+| Autoría | proyecto anterior del propio equipo de HuellaX, misma cuenta de GitHub |
 
 Atribución: el diseño, los textos en español, los datos de demostración y el
-pipeline provienen del equipo AstroNova / HUELLA X. HuellaX conserva las rutas,
-el código y la interfaz original; no reclama la autoría del upstream.
+pipeline provienen del equipo AstroNova / HUELLA X, que es el mismo equipo de
+HuellaX. Fusionamos nuestros dos proyectos para combinar sus funcionalidades;
+HuellaX conserva las rutas, el código y la interfaz original de AstroNova.
 
 ## Nota sobre NASA Space Apps
 
@@ -51,12 +52,11 @@ El producto principal de HuellaX es **MoveScope + SQL** en [`system/`](../system
 
 ## Licencia
 
-No se declara ninguna licencia para este módulo más allá del permiso del
-propietario para incluirlo en HuellaX. Ese permiso es la única base que se
-afirma aquí. La licencia Apache-2.0 y el NOTICE a nivel de repositorio cubren el
-producto principal de HuellaX; no vuelven a licenciar el upstream AstroNova.
-Los datos y medios de terceros conservan sus propias condiciones; consulta el
-README de `astro/` y los avisos del repositorio.
+AstroNova es trabajo propio y forma parte de este repositorio, por lo que está
+cubierto por la licencia Apache-2.0 ([LICENSE](../LICENSE)) y el
+[NOTICE](../NOTICE) del repositorio. Los datos y medios de terceros conservan
+sus propias condiciones; consulta el README de `astro/` y los avisos del
+repositorio.
 
 ## Conservación
 

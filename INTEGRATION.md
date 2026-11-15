@@ -85,8 +85,9 @@ authoritative inside `system/`.
 ## 5. Ownership and attribution
 
 - Primary MoveScope/HuellaX: `tonyelos/huella-x-simu`, Apache-2.0.
-- AstroNova: `Beltranpcb/AstroNova`, no LICENSE at merge time; owner confirmed inclusion.
-  Preserved with attribution; not relicensed under Apache-2.0.
+- AstroNova: `Beltranpcb/AstroNova`, the same team's earlier project under the same
+  GitHub account. Merged into HuellaX to combine features; covered by the repository's
+  Apache-2.0 license.
 - NASA Space Apps Challenge 2026 context is retained in the documentation.
 - NASA does not endorse this project.
 

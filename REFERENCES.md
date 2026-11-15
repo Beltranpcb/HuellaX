@@ -23,12 +23,12 @@
 10. God's Eye View, Bilawal Sidhu, <https://github.com/bilawalsidhu/gods-eye-view>;
     MIT for source code, third-party imagery under provider terms.
 
-## Upstream project
+## Earlier project of the team
 
-11. AstroNova / HUELLA X, <https://github.com/Beltranpcb/AstroNova>, analysed
+11. AstroNova / HUELLA X, <https://github.com/Beltranpcb/AstroNova>, merged
     commit `1253925ab13419b5d44db323548784c939a93a6e`; NASA Space Apps Challenge
-    2026. Preserved as a legacy reference; no LICENSE at merge time; owner
-    confirmed inclusion; not relicensed under Apache-2.0.
+    2026. The HuellaX team's own earlier project, merged into HuellaX under
+    `astro/` and covered by the repository's Apache-2.0 license.
 
 ## Notes
 

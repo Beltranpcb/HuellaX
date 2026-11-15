@@ -1,6 +1,6 @@
 HuellaX / MoveScope
 
-Copyright 2026 Yiao Tang and Beltranpcb / HuellaX contributors
+Copyright 2026 Yiao Tang, Beltranpcb and Hind Bouguerra / HuellaX contributors
 
 This product is licensed under the Apache License, Version 2.0.
 You may obtain a copy of the License at:
@@ -36,15 +36,15 @@ NASA does not endorse this project or any commercial product or service.
 
 AstroNova / HUELLA X upstream notice
 ------------------------------------
-The directory astro/ preserves the AstroNova / HUELLA X project:
+The directory astro/ contains AstroNova / HUELLA X, the earlier project of the
+same team, published under the same GitHub account as this repository:
   https://github.com/Beltranpcb/AstroNova
-  analyzed commit: 1253925ab13419b5d44db323548784c939a93a6e
+  merged commit: 1253925ab13419b5d44db323548784c939a93a6e
   event: NASA Space Apps Challenge 2026 - Planet X and SPHEREx
 
-At the time of analysis the upstream repository contained no LICENSE or COPYING
-file. The upstream owner confirmed that the code may be included in HuellaX as
-open code. It is preserved here with attribution and is NOT relicensed under the
-Apache License 2.0 that covers the original HuellaX / MoveScope work. Its static
+AstroNova is not a third-party project: it is our own work. The team merged it
+with MoveScope to build HuellaX and combine the features of both. As part of
+this repository it is distributed under the same Apache License 2.0. Its static
 demo fields are synthetic and must not be presented as observations or validation
 evidence.
 

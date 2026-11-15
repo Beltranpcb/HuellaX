@@ -10,6 +10,7 @@ url: "https://github.com/Beltranpcb/HuellaX"
 authors:
   - name: "Yiao Tang"
   - name: "Beltranpcb"
+  - name: "Hind Bouguerra"
 references:
   - type: "dataset"
     title: "SPHEREx level2 spectral images (QR3 / DR1)"

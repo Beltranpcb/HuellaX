@@ -18,11 +18,12 @@ science/data path.
 | Origin | AstroNova team, NASA Space Apps Challenge 2026, SPHEREx / Planet X challenge |
 | Original language | Spanish (demo UI, documentation, comments and field names) |
 | Integration | copied to `astro/`; upstream paths, source and Spanish UI are preserved |
-| Permission | included with the repository owner's permission |
+| Ownership | the HuellaX team's own earlier project, same GitHub account |
 
 Attribution: the design, Spanish copy, demo data and pipeline come from the
-AstroNova / HUELLA X team. HuellaX preserves the upstream paths, source and
-original UI; it does not claim authorship of the upstream.
+AstroNova / HUELLA X team, which is the same team behind HuellaX. We merged our
+two projects to combine their features; HuellaX keeps AstroNova's original
+paths, source and UI.
 
 ## NASA Space Apps note
 
@@ -50,12 +51,10 @@ The primary HuellaX product is **MoveScope + SQL** under [`system/`](../system/)
 
 ## Licensing
 
-No license is asserted for this module beyond the repository owner's permission
-to include it in HuellaX. That permission is the only basis claimed here. The
-repository-level Apache-2.0 license and NOTICE cover the primary HuellaX
-product; they do not relicense the AstroNova upstream. Third-party data and
-media remain subject to their own terms; see the `astro/` README and the
-repository-level notices.
+AstroNova is our own work and is part of this repository, so it is covered by
+the repository-level Apache-2.0 [LICENSE](../LICENSE) and [NOTICE](../NOTICE).
+Third-party data and media remain subject to their own terms; see the `astro/`
+README and the repository-level notices.
 
 ## Preservation
 
