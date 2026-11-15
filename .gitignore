@@ -1,19 +1,28 @@
-# ARCHIVO: .gitignore
-# ROL: Declara qué archivos generados quedan fuera de git.
-# LEE: Nada.
-# PRODUCE: La regla que impide subir FITS o datos intermedios.
-# VERIFICACION: `git status` no lista ningún *.fits tras ejecutar el pipeline.
-
-.env
-.venv/
 __pycache__/
 *.pyc
-.pytest_cache/
+.DS_Store
 
-# Ningún FITS entra en git
-*.fits
+# 迁移/冲突归档与工作树，不进仓库
+项目主控/_归档/
+项目主控/_worktrees/
+项目主控/_secrets/
 
-# Nada de datos/ entra en git: es salida del pipeline, no fuente.
-# Se regenera con los módulos (o con m9_sitio/ejemplos/generar_datos.py).
-datos/*
-!datos/LEEME.md
+# 运行时产物
+项目主控/验收/report/
+项目主控/启动/logs/
+项目主控/启动/run/
+系统/数据库工具/var/catalog.sqlite-wal
+系统/数据库工具/var/catalog.sqlite-shm
+系统/数据库工具/var/star_catalog.sqlite
+系统/数据库工具/var/star_catalog.sqlite-wal
+系统/数据库工具/var/star_catalog.sqlite-shm
+系统/数据库工具/var/smoke*
+系统/数据库工具/var/bench_scale*.sqlite*
+系统/数据库工具/var/*.log
+系统/数据库工具/var/*.pid
+
+# 星表服务临时 HEALPix 依赖（51 MB，可重建；不提交）
+/.tmp_hp/
+
+# Local DB backups (runtime, not committed)
+系统/数据库工具/var/backup/
