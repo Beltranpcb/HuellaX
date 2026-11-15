@@ -1,3 +1,9 @@
+# ARCHIVO: .gitignore
+# ROL: Declara qué archivos generados quedan fuera de git.
+# LEE: Nada.
+# PRODUCE: La regla que impide subir FITS o datos intermedios.
+# VERIFICACION: `git status` no lista ningún *.fits tras ejecutar el pipeline.
+
 .env
 .venv/
 __pycache__/

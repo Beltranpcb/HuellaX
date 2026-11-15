@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "contratos/movimiento.schema.json",
+  "title": "movimiento.json: medida del movimiento de cada pareja",
+  "$comment": "ARCHIVO: contratos/movimiento.schema.json. ROL: fija la forma de movimiento.json: medida del movimiento de cada pareja. PRODUCTOR: m4_movimiento/clasificacion.py. CONSUMIDORES: m5_identificacion, m6_huella_espectral, m7_publicacion. RUTA REAL: datos/m4_movimiento/<campo>/movimiento.json. VERIFICACION: check-jsonschema --schemafile contratos/movimiento.schema.json <archivo>. No contiene lógica: solo describe datos.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version_contrato",
+    "campo",
+    "parejas"
+  ],
+  "properties": {
+    "_comentario": {
+      "type": "string",
+      "description": "Comentario libre para humanos. Ningún consumidor lo lee."
+    },
+    "version_contrato": {
+      "const": "1",
+      "description": "Versión del contrato. Cambia solo en un PR propio avisado a los cuatro lotes."
+    },
+    "campo": {
+      "type": "string",
+      "description": "Identificador del campo: minúsculas, cifras, guion bajo.",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "parejas": {
+      "type": "array",
+      "description": "Una entrada por cada pareja de fuentes.json.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id_pareja",
+          "separacion_segarc",
+          "horas_transcurridas",
+          "velocidad_segarc_por_hora",
+          "incertidumbre_velocidad",
+          "significancia",
+          "clase"
+        ],
+        "properties": {
+          "id_pareja": {
+            "type": "string",
+            "description": "Identificador de la pareja A-B dentro del campo.",
+            "pattern": "^p[0-9]{3}$"
+          },
+          "separacion_segarc": {
+            "type": "number",
+            "description": "Separación angular A-B sobre la esfera.",
+            "minimum": 0
+          },
+          "horas_transcurridas": {
+            "type": "number",
+            "description": "Horas de A a B.",
+            "exclusiveMinimum": 0
+          },
+          "velocidad_segarc_por_hora": {
+            "type": "number",
+            "description": "Separación entre horas transcurridas.",
+            "minimum": 0
+          },
+          "incertidumbre_velocidad": {
+            "type": "number",
+            "description": "Incertidumbre de la velocidad en segundos de arco por hora.",
+            "minimum": 0
+          },
+          "significancia": {
+            "type": "number",
+            "description": "Separación entre su incertidumbre.",
+            "minimum": 0
+          },
+          "clase": {
+            "description": "Menos de 2 sigmas: estacionaria. De 2 a 5: no_concluyente. 5 o más: candidata.",
+            "enum": [
+              "estacionaria",
+              "candidata",
+              "no_concluyente"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

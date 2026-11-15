@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "contratos/campos.schema.json",
+  "title": "campos.json: índice de campos publicados",
+  "$comment": "ARCHIVO: contratos/campos.schema.json. ROL: fija la forma de campos.json: índice de campos publicados. PRODUCTOR: m7_publicacion/indice_campos.py. CONSUMIDORES: m9_sitio. RUTA REAL: datos/m7_publicacion/campos.json. VERIFICACION: check-jsonschema --schemafile contratos/campos.schema.json <archivo>. No contiene lógica: solo describe datos.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version_contrato",
+    "campos"
+  ],
+  "properties": {
+    "_comentario": {
+      "type": "string",
+      "description": "Comentario libre para humanos. Ningún consumidor lo lee."
+    },
+    "version_contrato": {
+      "const": "1",
+      "description": "Versión del contrato. Cambia solo en un PR propio avisado a los cuatro lotes."
+    },
+    "campos": {
+      "type": "array",
+      "description": "Campos disponibles en la web.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "campo",
+          "nombre",
+          "ruta",
+          "numero_candidatos"
+        ],
+        "properties": {
+          "campo": {
+            "type": "string",
+            "description": "Identificador del campo: minúsculas, cifras, guion bajo.",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "nombre": {
+            "type": "string",
+            "description": "Nombre legible del campo."
+          },
+          "ruta": {
+            "type": "string",
+            "description": "Directorio del campo, relativo a campos.json."
+          },
+          "numero_candidatos": {
+            "type": "integer",
+            "description": "Entradas de su candidatos.json.",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}
