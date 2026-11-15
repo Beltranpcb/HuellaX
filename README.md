@@ -8,7 +8,7 @@ HuellaX combines:
 
 - **MoveScope**, the primary live system: multi-epoch SPHEREx cutouts, SQL catalogues, source detection, motion/variability modelling, Gaia/2MASS/WISE identification, arbitrary-field coverage, batch runs and audit exports.
 - **AstroNova / HUELLA X**, the NASA Space Apps Challenge 2026 prototype, preserved under [`astro/`](astro/) as a clearly labelled legacy demo and offline pipeline.
-- A bilingual cover page, this English README and the Spanish [`README.es.md`](README.es.md).
+- A bilingual entry page, this English README and the Spanish [`README.es.md`](README.es.md).
 
 > **Candidate rule.** A candidate is not a discovery. Two epochs do not establish a new object.
 > A catalogue non-match is `no_match`, not a new planet. AstroNova's synthetic demo is not
@@ -23,7 +23,7 @@ This public repository is deliberately split into an **English/Spanish envelope*
 
 ```text
 HuellaX/
-├── index.html              bilingual cover (English default, Spanish switch)
+├── index.html              bilingual entry page (English default, Spanish switch)
 ├── README.md               this file
 ├── README.es.md            Spanish README
 ├── INTEGRATION.md          integration architecture and upstream mapping
@@ -81,11 +81,11 @@ The wrapper locates the primary launcher inside `system/` and starts the core SQ
 | Sky View | 8830 | region/time selection and one MoveScope handoff |
 | Gaia catalog B | 8799 | separate SQLite catalogue service |
 | AnyField C | 8798 | arbitrary-field coverage/discovery |
-| Cover | 8840 | bilingual public landing page (optional; `./scripts/serve_cover.sh`) |
+| Entry | 8840 | bilingual public entry page (optional; `./scripts/serve_cover.sh`) |
 
 Open:
 
-- cover: <http://127.0.0.1:8840/>
+- entry: <http://127.0.0.1:8840/>
 - MoveScope: <http://127.0.0.1:8790/>
 - Sky View: <http://127.0.0.1:8830/>
 
@@ -140,7 +140,15 @@ primary SQL path.
 - Arbitrary-field coverage/discovery service.
 - CSV/JSON audit exports with provenance.
 - Sky View: region/time selection, timeline, playback and one MoveScope handoff.
-- Bilingual cover and UI language selector (English default, Spanish complete).
+
+### Inside Sky View
+
+- **SkyBoT** — live IMCCE cone search for known solar-system objects, with an explicit external-service fallback.
+- **Bands** — a real 102-band instrument plan with molecular windows; it explicitly is not a measured spectrum.
+- **3D context** — the actual Sky View globe and selection, plus a clearly labelled legacy 3D link.
+
+The modules share the Sky View visual system and never turn a catalogue non-match into a discovery.
+- Bilingual entry page and UI language selector (English default, Spanish complete).
 
 The app intentionally does **not** claim a discovery, a confirmed planet, or a
 composition derived from synthetic templates.

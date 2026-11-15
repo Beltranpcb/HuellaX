@@ -8,7 +8,7 @@ HuellaX combina:
 
 - **MoveScope**, el sistema primario en vivo: recortes SPHEREx multiépoca, catálogos SQL, detección de fuentes, modelado de movimiento/variabilidad, identificación Gaia/2MASS/WISE, cobertura de campo arbitrario, lotes y exportaciones auditables.
 - **AstroNova / HUELLA X**, el prototipo de NASA Space Apps Challenge 2026, conservado en [`astro/`](astro/) como demo legacy y pipeline offline claramente etiquetado.
-- Una portada bilingüe, este README en español y el README principal en [`README.md`](README.md).
+- Una página de entrada bilingüe, este README en español y el README principal en [`README.md`](README.md).
 
 > **Regla de candidato.** Un candidato no es un descubrimiento. Dos épocas no demuestran un objeto nuevo.
 > Un `no_match` de catálogo no es un planeta nuevo. La demo sintética de AstroNova no es evidencia observacional.
@@ -21,7 +21,7 @@ Este repositorio público separa una **envoltura inglés/español** del **submó
 
 ```text
 HuellaX/
-├── index.html              portada bilingüe (inglés por defecto, selector español)
+├── index.html              página de entrada bilingüe (inglés por defecto, selector español)
 ├── README.md               README principal en inglés
 ├── README.es.md            este archivo
 ├── INTEGRATION.md          arquitectura de integración y mapeo del upstream
@@ -78,11 +78,11 @@ El wrapper localiza el lanzador primario dentro de `system/` y arranca el stack 
 | Sky View | 8830 | selección de región/tiempo y un único handoff a MoveScope |
 | Catálogo Gaia B | 8799 | servicio de catálogo SQLite separado |
 | AnyField C | 8798 | cobertura/descubrimiento de campo arbitrario |
-| Portada | 8840 | landing pública bilingüe (opcional; `./scripts/serve_cover.sh`) |
+| Entrada | 8840 | página de entrada pública bilingüe (opcional; `./scripts/serve_cover.sh`) |
 
 Abrir:
 
-- portada: <http://127.0.0.1:8840/>
+- entrada: <http://127.0.0.1:8840/>
 - MoveScope: <http://127.0.0.1:8790/>
 - Sky View: <http://127.0.0.1:8830/>
 
@@ -133,7 +133,15 @@ ruta SQL primaria.
 - Servicio de cobertura/descubrimiento de campo arbitrario.
 - Exportaciones CSV/JSON con procedencia.
 - Sky View: región/tiempo, línea temporal, reproducción y un único handoff a MoveScope.
-- Portada bilingüe y selector de idioma en la UI (inglés por defecto, español completo).
+
+### Dentro de Sky View
+
+- **SkyBoT** — búsqueda de cono en vivo en IMCCE para objetos conocidos del sistema solar, con fallback externo explícito.
+- **Bandas** — plan real de 102 bandas del instrumento con ventanas moleculares; no es un espectro medido.
+- **Contexto 3D** — el globo y la selección reales de Sky View, más un enlace 3D legacy claramente etiquetado.
+
+Los módulos comparten el sistema visual de Sky View y nunca convierten un no_match en un descubrimiento.
+- Página de entrada bilingüe y selector de idioma en la UI (inglés por defecto, español completo).
 
 La app no afirma un descubrimiento, un planeta confirmado ni una composición derivada de
 plantillas sintéticas.
