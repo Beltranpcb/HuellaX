@@ -4,7 +4,7 @@
 
 > **Start with the sky. End with evidence.**
 > A candidate-first SPHEREx laboratory: choose a region in Sky View, hand it to
-> MoveScope, then inspect catalogue, spectral and 3D context.
+> MoveScope, then inspect catalogue and spectral context. The 3D globe is the workspace itself.
 
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-4c8bf5.svg)](LICENSE)
 [![Data: SQLite](https://img.shields.io/badge/data-SQLite-57e6ff.svg)](#data-and-provenance)
@@ -29,8 +29,8 @@ The project combines:
   and audit exports.
 - **Sky View** — the main entry into the data: a 3D sky/globe, region and epoch
   selection, an analysis time window, and one explicit handoff to MoveScope.
-- **Evidence modules inside Sky View** — SkyBoT, an instrument band atlas and a
-  3D context panel. Each has a clearly stated evidential boundary.
+- **Evidence modules inside Sky View** — SkyBoT and an instrument band atlas.
+  Each has a clearly stated evidential boundary; the 3D globe is the workspace itself.
 - **AstroNova / HUELLA X** — the NASA Space Apps Challenge 2026 prototype,
   preserved under `astro/` as a legacy reference, never as the primary data path.
 
@@ -61,7 +61,6 @@ MoveScope ── SQL epochs, motion/variability, catalogue identity
 Inside Sky View:
    ├── SkyBoT    known solar-system objects (external ephemerides)
    ├── Bands     102-band instrument plan + molecular windows
-   └── 3D        actual Sky View context + clearly labelled legacy 3D link
 ```
 
 ### Entry page
@@ -113,15 +112,6 @@ can actually support today.
 - Hover/select interaction is schematic but based on the real band plan.
 - The panel explicitly says: **not a measured spectrum**.
 - Measured spectra remain in MoveScope when the pipeline actually has one.
-
-### 3D — real Sky View context
-
-![3D context module](docs/screenshots/modules-3d-en.png)
-
-- Reads the current selection: RA, Dec, FOV and local hits.
-- The globe behind the panel is the actual 3D context.
-- The separate AstroNova 3D spectral page is labelled **legacy** and is never
-  presented as a measured 3D spectrum.
 
 ---
 
@@ -278,7 +268,7 @@ Stop:
 - Arbitrary-field coverage/discovery.
 - CSV/JSON audit exports with provenance.
 - Sky View timeline, playback, time window and single MoveScope handoff.
-- SkyBoT, band atlas and 3D context modules.
+- SkyBoT and band atlas modules.
 - English-primary UI with a complete Spanish selector.
 
 ---
@@ -309,7 +299,6 @@ HuellaX deliberately avoids overclaiming:
 - no synthetic AstroNova demo presented as observation;
 - no catalogue non-match presented as a new object;
 - no synthetic spectral template presented as a measured composition;
-- no 3D legacy view presented as a measured 3D spectrum;
 - no fabricated successful TAP ingest when the upstream service is unavailable.
 
 AstroNova’s synthetic demo is useful for interface and pipeline reference only.
