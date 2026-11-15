@@ -330,7 +330,9 @@ NASA no respalda este proyecto ni ningún producto o servicio comercial.
 ## 12. Licencia y enlaces
 
 - Trabajo original MoveScope/HuellaX: **Apache-2.0**, ver [`LICENSE`](LICENSE).
+- Copyright 2026 Yiao Tang y Beltranpcb / colaboradores de HuellaX.
 - Datos/software de terceros: [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+- Atribución visual de la Tierra (God's Eye View; términos de las imágenes): [`assets/ATTRIBUTION.md`](assets/ATTRIBUTION.md).
 - Referencias: [`REFERENCES.md`](REFERENCES.md).
 - Diseño de integración: [`INTEGRATION.md`](INTEGRATION.md).
 - Repositorio: <https://github.com/Beltranpcb/HuellaX>

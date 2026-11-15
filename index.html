@@ -4,6 +4,10 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>HuellaX — Enter Sky View</title>
+<!-- Earth visual reference: God's Eye View by Bilawal Sidhu (MIT for source code;
+     third-party imagery keeps its own terms). Files: assets/earth.jpg and
+     assets/earth-lights.png. Full source and code-provenance notes:
+     assets/ATTRIBUTION.md. -->
 <meta name="description" content="HuellaX: choose a sky region in Sky View, hand it to MoveScope, and inspect candidates with SQL-backed catalogues." />
 <style>
   :root {
@@ -262,6 +266,10 @@
   apply(lang);
 
   const c = document.getElementById("orbit"), ctx = c.getContext("2d");
+  // Earth visual reference: God's Eye View by Bilawal Sidhu.
+  // God's Eye View is MIT for source code; its third-party imagery keeps its
+  // own terms. This is original Canvas 2D code; no Earth mesh/shader is copied.
+  // See assets/ATTRIBUTION.md for sources and license notes.
   const earth = new Image();
   const lights = new Image();
   let earthOk = false, lightsOk = false;

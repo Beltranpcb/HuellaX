@@ -5,10 +5,11 @@ abstract: "A candidate-first SPHEREx motion laboratory: multi-epoch images, SQL 
 version: "0.2.0"
 date-released: "2026-11-15"
 license: "Apache-2.0"
-repository-code: "https://github.com/tonyelos/huella-x-simu"
-url: "https://github.com/tonyelos/huella-x-simu"
+repository-code: "https://github.com/Beltranpcb/HuellaX"
+url: "https://github.com/Beltranpcb/HuellaX"
 authors:
-  - name: "huella-x contributors"
+  - name: "Yiao Tang"
+  - name: "Beltranpcb"
 references:
   - type: "dataset"
     title: "SPHEREx level2 spectral images (QR3 / DR1)"

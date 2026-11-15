@@ -1,6 +1,6 @@
 HuellaX / MoveScope
 
-Copyright 2026 huella-x contributors
+Copyright 2026 Yiao Tang and Beltranpcb / HuellaX contributors
 
 This product is licensed under the Apache License, Version 2.0.
 You may obtain a copy of the License at:
@@ -19,8 +19,9 @@ submission-ready citation list is in REFERENCES.md.
 
 - three.js is distributed under the MIT License; its notice is preserved in the
   primary submodule.
-- Earth imagery is credited to NASA Visible Earth / Blue Marble via the three.js
-  examples (MIT); NASA media guidelines apply.
+- Earth visual reference: God's Eye View by Bilawal Sidhu, MIT for source code
+  (Copyright (c) 2026 Bilawal Sidhu); third-party imagery keeps its own terms.
+  See assets/ATTRIBUTION.md. NASA does not endorse this project.
 - SPHEREx level-2 data are from NASA/IPAC IRSA (QR3/DR1); NASA data are publicly
   available and no NASA endorsement is implied.
 - Target coordinates are from SIMBAD/CDS; see THIRD_PARTY_NOTICES.md.
