@@ -77,6 +77,28 @@
   .float{position:absolute;border-left:2px solid var(--cyan);background:rgba(6,12,20,.82);backdrop-filter:blur(8px);padding:7px 10px;font-family:var(--mono);font-size:8px;letter-spacing:.05em;box-shadow:0 12px 36px rgba(0,0,0,.3);pointer-events:none}
   .float b{display:block;color:var(--ink);font-size:9px;font-weight:500;margin-bottom:3px}
   .float span{color:var(--dim)}
+
+  /* NASA-style mission HUD around the orbital illustration */
+  .orbit-frame{position:absolute;inset:2px 0 20px;pointer-events:none;border:1px solid rgba(87,230,255,.10);}
+  .orbit-frame:before,.orbit-frame:after{content:"";position:absolute;width:34px;height:34px;border-color:rgba(87,230,255,.55);border-style:solid;}
+  .orbit-frame:before{top:-1px;left:-1px;border-width:1px 0 0 1px;}
+  .orbit-frame:after{bottom:-1px;right:-1px;border-width:0 1px 1px 0;}
+  .orbit-hud{position:absolute;inset:16px 0 auto;display:flex;justify-content:space-between;pointer-events:none;padding:0 12px;}
+  .oh{font-family:var(--mono);font-size:7px;letter-spacing:.12em;color:var(--dim2);text-transform:uppercase;}
+  .oh b{display:block;margin-top:3px;color:var(--ink);font-size:10px;font-weight:500;letter-spacing:.08em;}
+  .oh small{display:block;margin-top:2px;color:var(--cyan);font-size:7px;}
+  .oh.right{text-align:right;}
+  .orbit-strip{position:absolute;left:12px;right:12px;bottom:30px;display:flex;justify-content:space-between;pointer-events:none;font-family:var(--mono);font-size:7px;color:var(--dim2);letter-spacing:.08em;text-transform:uppercase;}
+  .orbit-strip b{color:var(--mint);font-weight:500;}
+  .orbit-spectrum{position:absolute;right:12px;top:92px;display:flex;flex-direction:column;gap:3px;pointer-events:none;}
+  .orbit-spectrum i{display:block;width:24px;height:3px;background:var(--cyan);opacity:.65;}
+  .orbit-spectrum i:nth-child(2){width:18px;background:var(--mint)}
+  .orbit-spectrum i:nth-child(3){width:12px;background:var(--amber)}
+  .orbit-callout{position:absolute;border-left:1px solid var(--cyan);padding-left:6px;font-family:var(--mono);font-size:7px;line-height:1.55;color:var(--dim);pointer-events:none;}
+  .orbit-callout b{display:block;color:var(--ink);font-size:8px;font-weight:500;}
+  .oc-1{left:2%;top:31%;border-left-color:var(--amber)}
+  .oc-2{right:0;bottom:26%;text-align:right;border-left:0;border-right:1px solid var(--mint);padding-left:0;padding-right:6px}
+  @media(max-width:620px){.orbit-hud,.orbit-strip,.orbit-callout,.orbit-spectrum{display:none}}
   .f1{top:19%;left:3%}.f2{top:46%;right:0;border-left-color:var(--amber)}.f3{bottom:19%;left:16%;border-left-color:var(--mint)}
   .foot{
     flex:none;border-top:1px solid var(--line);width:min(1240px,calc(100% - 60px));
@@ -147,10 +169,19 @@
     </section>
 
     <section class="stage" aria-label="Sky View orbital illustration">
+      <div class="orbit-frame" aria-hidden="true"></div>
       <canvas id="orbit"></canvas>
+      <div class="orbit-hud">
+        <div class="oh"><span data-i18n="hudMission">Mission / platform</span><b>SPHEREx</b><small data-i18n="hudOrbit">LEO · 650 km</small></div>
+        <div class="oh right"><span data-i18n="hudScan">Scan / payload</span><b data-i18n="hudBands">102 BANDS</b><small>0.75–5.0 µm</small></div>
+      </div>
+      <div class="orbit-spectrum" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="orbit-callout oc-1"><b data-i18n="hudTrack">ORBIT TRACK</b><span data-i18n="hudTrackNote">ascending node · repeated visits</span></div>
+      <div class="orbit-callout oc-2"><b data-i18n="hudTarget">TARGET LOCK</b><span>RA 17h57m48s · DEC +04°41′36″</span></div>
       <div class="float f1"><b>01 · SKY VIEW</b><span>region · epoch · FOV</span></div>
       <div class="float f2"><b>02 · MOVESCOPE</b><span>motion · catalogue · evidence</span></div>
       <div class="float f3"><b>03 · CANDIDATE</b><span>never a discovery claim</span></div>
+      <div class="orbit-strip"><span data-i18n-html="hudLeft">NASA SPACE APPS 2026 · PLANET X / SPHEREX</span><span data-i18n="hudRight">SCAN MODE · 102 BANDS · 6.15″/PX</span></div>
       <div class="note" data-i18n="stageNote">SPHEREx · 0.75–5.0 µm · repeated visits</div>
     </section>
   </main>
@@ -176,6 +207,12 @@
       cta: "Enter Sky View <span class=\"arrow\">↗</span>",
       source: "Open source",
       stageNote: "SPHEREx · 0.75–5.0 µm · repeated visits",
+      hudMission: "Mission / platform", hudOrbit: "LEO · 650 km",
+      hudScan: "Scan / payload", hudBands: "102 BANDS",
+      hudTrack: "ORBIT TRACK", hudTrackNote: "ascending node · repeated visits",
+      hudTarget: "TARGET LOCK",
+      hudLeft: "<b>NASA SPACE APPS 2026</b> · PLANET X / SPHEREX",
+      hudRight: "SCAN MODE · 102 BANDS · 6.15″/PX",
       footLeft: "NASA Space Apps Challenge 2026 · Planet X and SPHEREx",
       footMid: "candidate ≠ discovery · no NASA endorsement"
     },
@@ -187,6 +224,12 @@
       cta: "Entrar en Sky View <span class=\"arrow\">↗</span>",
       source: "Código abierto",
       stageNote: "SPHEREx · 0,75–5,0 µm · visitas repetidas",
+      hudMission: "Misión / plataforma", hudOrbit: "LEO · 650 km",
+      hudScan: "Escaneo / carga útil", hudBands: "102 BANDAS",
+      hudTrack: "ÓRBITA", hudTrackNote: "nodo ascendente · visitas repetidas",
+      hudTarget: "OBJETIVO FIJADO",
+      hudLeft: "<b>NASA SPACE APPS 2026</b> · PLANETA X / SPHEREX",
+      hudRight: "MODO ESCANEO · 102 BANDAS · 6.15″/PX",
       footLeft: "NASA Space Apps Challenge 2026 · Planet X and SPHEREx",
       footMid: "candidato ≠ descubrimiento · NASA no respalda"
     }
@@ -219,37 +262,128 @@
   apply(lang);
 
   const c = document.getElementById("orbit"), ctx = c.getContext("2d");
+  const earth = new Image();
+  const lights = new Image();
+  let earthOk = false, lightsOk = false;
+  earth.onload = () => { earthOk = true; };
+  lights.onload = () => { lightsOk = true; };
+  earth.src = "assets/earth.jpg";
+  lights.src = "assets/earth-lights.png";
   let stars = [];
   function resize() {
     const dpr = Math.min(devicePixelRatio || 1, 2), r = c.getBoundingClientRect();
     c.width = Math.max(1, Math.round(r.width * dpr)); c.height = Math.max(1, Math.round(r.height * dpr));
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    stars = Array.from({length: 120}, () => ({x: Math.random()*r.width, y: Math.random()*r.height, r: Math.random()*1.3+.2, a: Math.random()*.55+.15, p: Math.random()*6.28, s: .0006+Math.random()*.0012}));
+    stars = Array.from({length: 170}, () => ({x: Math.random()*r.width, y: Math.random()*r.height, r: Math.random()*1.25+.2, a: Math.random()*.6+.12, p: Math.random()*6.28, s: .0005+Math.random()*.0011}));
+  }
+  function orbitPoint(cx, cy, R, angle) {
+    const rot = -.38, ex = R*1.58*Math.cos(angle), ey = R*.43*Math.sin(angle);
+    return { x: cx + ex*Math.cos(rot) - ey*Math.sin(rot), y: cy + ex*Math.sin(rot) + ey*Math.cos(rot) };
   }
   function draw(ts) {
     const dpr = Math.min(devicePixelRatio || 1, 2), w = c.width/dpr, h = c.height/dpr;
     ctx.clearRect(0,0,w,h);
-    const cx = w*.52, cy = h*.47, R = Math.min(w,h)*.27;
+    const cx = w*.50, cy = h*.47, R = Math.min(w,h)*.295;
+    // stars
     stars.forEach(s => {
       const t = .55+.45*Math.sin(ts*s.s+s.p);
-      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.283); ctx.fillStyle = `rgba(180,220,255,${s.a*t})`; ctx.fill();
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.283); ctx.fillStyle = `rgba(185,220,255,${s.a*t})`; ctx.fill();
     });
-    ctx.save(); ctx.translate(cx,cy);
-    for(let i=0;i<3;i++){
-      ctx.beginPath(); ctx.ellipse(0,0,R+i*34,(R+i*34)*.28,-.42,0,6.283);
-      ctx.strokeStyle = `rgba(87,230,255,${.16-i*.035})`; ctx.lineWidth=1; ctx.stroke();
-    }
-    const g = ctx.createRadialGradient(-18,-20,4,0,0,R*.53);
-    g.addColorStop(0,"#173d5b"); g.addColorStop(.55,"#0a1c2e"); g.addColorStop(1,"#03080f");
-    ctx.beginPath(); ctx.arc(0,0,R*.53,0,6.283); ctx.fillStyle=g; ctx.fill();
-    ctx.strokeStyle="rgba(87,230,255,.34)"; ctx.stroke();
-    ctx.strokeStyle="rgba(120,190,230,.12)"; ctx.lineWidth=.7;
-    for(let k=-2;k<=2;k++){ const rr=R*.53*Math.sqrt(Math.max(0,1-(k*12/(R*.53))**2)); ctx.beginPath(); ctx.ellipse(0,k*12,rr,4,0,0,6.283); ctx.stroke(); }
-    const a=ts*.00012, mx=Math.cos(a)*(R+58), my=Math.sin(a)*(R+58)*.28;
-    ctx.beginPath(); ctx.arc(mx,my,3,0,6.283); ctx.fillStyle="#ffb454"; ctx.shadowColor="#ffb454"; ctx.shadowBlur=13; ctx.fill(); ctx.shadowBlur=0;
-    ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(mx,my); ctx.strokeStyle="rgba(255,180,84,.34)"; ctx.setLineDash([3,5]); ctx.stroke(); ctx.setLineDash([]);
-    const scan=(ts*.05)%6.283; ctx.beginPath(); ctx.arc(0,0,R*.53+9,scan,scan+.75); ctx.strokeStyle="rgba(87,230,255,.45)"; ctx.lineWidth=1.2; ctx.stroke();
+    // orbital path
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(-.38);
+    ctx.beginPath(); ctx.ellipse(0,0,R*1.58,R*.43,0,0,6.283);
+    ctx.strokeStyle = "rgba(87,230,255,.13)"; ctx.lineWidth = 1; ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(0,0,R*1.22,R*.33,0,0,6.283);
+    ctx.strokeStyle = "rgba(87,230,255,.08)"; ctx.stroke();
     ctx.restore();
+    // atmosphere
+    const atmo = ctx.createRadialGradient(cx,cy,R*.82,cx,cy,R*1.18);
+    atmo.addColorStop(0,"rgba(87,230,255,.0)"); atmo.addColorStop(.78,"rgba(87,230,255,.10)"); atmo.addColorStop(1,"rgba(87,230,255,0)");
+    ctx.beginPath(); ctx.arc(cx,cy,R*1.18,0,6.283); ctx.fillStyle=atmo; ctx.fill();
+    // globe
+    ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R,0,6.283); ctx.clip();
+    if (earthOk) {
+      const sw = earth.naturalWidth, sh = earth.naturalHeight;
+      const scale = Math.max((R*2)/sw,(R*2)/sh), dw=sw*scale, dh=sh*scale;
+      ctx.drawImage(earth, cx-dw/2, cy-dh/2, dw, dh);
+      if (lightsOk) {
+        ctx.globalCompositeOperation = "screen"; ctx.globalAlpha = .26;
+        ctx.drawImage(lights, cx-dw/2, cy-dh/2, dw, dh);
+        ctx.globalCompositeOperation = "source-over"; ctx.globalAlpha = 1;
+      }
+      const night = ctx.createLinearGradient(cx-R,cy-R,cx+R,cy+R*.4);
+      night.addColorStop(0,"rgba(1,6,14,.58)"); night.addColorStop(.48,"rgba(1,6,14,.08)"); night.addColorStop(1,"rgba(1,6,14,.62)");
+      ctx.fillStyle = night; ctx.fillRect(cx-R,cy-R,R*2,R*2);
+    } else {
+      const g = ctx.createRadialGradient(cx-R*.22,cy-R*.30,4,cx,cy,R);
+      g.addColorStop(0,"#1a4f70"); g.addColorStop(.55,"#0a2237"); g.addColorStop(1,"#02070e");
+      ctx.fillStyle=g; ctx.fillRect(cx-R,cy-R,R*2,R*2);
+    }
+    // graticule
+    ctx.strokeStyle = "rgba(120,205,240,.17)"; ctx.lineWidth = .7;
+    for (let k=-3;k<=3;k++) {
+      const yy = cy + k*R*.20;
+      const rx = R*Math.sqrt(Math.max(0,1-(k*.20)**2));
+      ctx.beginPath(); ctx.ellipse(cx,yy,rx,R*.075,0,0,6.283); ctx.stroke();
+    }
+    for (let k=-3;k<=3;k++) {
+      const xx = cx + k*R*.22;
+      const hh = R*Math.sqrt(Math.max(0,1-(k*.22)**2));
+      ctx.beginPath(); ctx.ellipse(xx,cy,R*.055,hh,0,0,6.283); ctx.stroke();
+    }
+    // terminator
+    ctx.beginPath(); ctx.ellipse(cx-R*.36,cy,R*.48,R*.95,-.28,0,6.283);
+    ctx.strokeStyle = "rgba(255,180,84,.24)"; ctx.setLineDash([4,5]); ctx.stroke(); ctx.setLineDash([]);
+    ctx.restore();
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,6.283); ctx.strokeStyle="rgba(140,225,255,.48)"; ctx.lineWidth=1; ctx.stroke();
+
+    // scan footprint from satellite toward target
+    const a = (ts*.00016) - .95;
+    const sat = orbitPoint(cx,cy,R,a);
+    const scan = ctx.createLinearGradient(sat.x,sat.y,cx,cy);
+    scan.addColorStop(0,"rgba(255,180,84,.20)"); scan.addColorStop(.55,"rgba(87,230,255,.10)"); scan.addColorStop(1,"rgba(87,230,255,0)");
+    ctx.beginPath(); ctx.moveTo(sat.x,sat.y); ctx.lineTo(cx-R*.76,cy-R*.34); ctx.lineTo(cx+R*.58,cy+R*.52); ctx.closePath(); ctx.fillStyle=scan; ctx.fill();
+    for (let i=0;i<7;i++) {
+      const f=(i+1)/8, x=cx-R*.76+(R*1.34)*f, y=cy-R*.34+(R*.86)*f;
+      ctx.beginPath(); ctx.moveTo(sat.x,sat.y); ctx.lineTo(x,y); ctx.strokeStyle="rgba(87,230,255,.10)"; ctx.stroke();
+    }
+
+    // target lock
+    const tx = cx - R*.18, ty = cy + R*.14;
+    ctx.save(); ctx.translate(tx,ty);
+    ctx.strokeStyle="rgba(255,180,84,.95)"; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(0,0,R*.09,0,6.283); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-R*.15,0); ctx.lineTo(-R*.055,0); ctx.moveTo(R*.055,0); ctx.lineTo(R*.15,0); ctx.moveTo(0,-R*.15); ctx.lineTo(0,-R*.055); ctx.moveTo(0,R*.055); ctx.lineTo(0,R*.15); ctx.stroke();
+    ctx.fillStyle="rgba(255,180,84,.9)"; ctx.beginPath(); ctx.arc(0,0,2.2,0,6.283); ctx.fill();
+    ctx.restore();
+    ctx.font = "7px ui-monospace, monospace"; ctx.fillStyle = "rgba(255,205,145,.88)";
+    ctx.fillText(lang === "es" ? "OBJETIVO" : "TARGET", tx+10, ty-7); ctx.fillStyle="rgba(170,210,235,.55)"; ctx.fillText("RA 17:57:48  DEC +04:41:36", tx+10, ty+6);
+
+    // satellite body
+    ctx.save(); ctx.translate(sat.x,sat.y); ctx.rotate(a - .38 + Math.PI/2);
+    ctx.shadowColor="rgba(87,230,255,.75)"; ctx.shadowBlur=12;
+    ctx.fillStyle="#d8eef8"; ctx.fillRect(-4,-7,8,14);
+    ctx.fillStyle="#57e6ff"; ctx.fillRect(-15,-5,9,10); ctx.fillRect(6,-5,9,10);
+    ctx.strokeStyle="rgba(8,25,38,.8)"; ctx.lineWidth=.6; ctx.strokeRect(-15,-5,9,10); ctx.strokeRect(6,-5,9,10);
+    ctx.fillStyle="#ffb454"; ctx.beginPath(); ctx.arc(0,0,2.2,0,6.283); ctx.fill();
+    ctx.restore();
+
+    // orbital ticks
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(-.38);
+    for (let i=0;i<48;i++) {
+      const t=i/48*6.283, ex=R*1.58*Math.cos(t), ey=R*.43*Math.sin(t);
+      const len=(i%6===0)?5:2.5;
+      ctx.beginPath(); ctx.moveTo(ex,ey); ctx.lineTo(ex+len,ey-len*.22); ctx.strokeStyle="rgba(87,230,255,.28)"; ctx.lineWidth=.6; ctx.stroke();
+    }
+    ctx.restore();
+
+    // scan arc
+    const arc=(ts*.03)%6.283;
+    ctx.beginPath(); ctx.arc(cx,cy,R*.96,arc,arc+.55); ctx.strokeStyle="rgba(87,230,255,.5)"; ctx.lineWidth=1.4; ctx.stroke();
+    // tiny crosshair grid labels
+    ctx.fillStyle="rgba(126,148,170,.45)"; ctx.font="6.5px ui-monospace, monospace";
+    ctx.fillText("N", cx-2, cy-R-9); ctx.fillText("E", cx+R+7, cy+2);
+    ctx.fillText("S", cx-2, cy+R+13); ctx.fillText("W", cx-R-15, cy+2);
     requestAnimationFrame(draw);
   }
   resize(); addEventListener("resize", resize); requestAnimationFrame(draw);
