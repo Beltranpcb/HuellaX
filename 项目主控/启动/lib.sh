@@ -12,6 +12,10 @@ LAUNCHER_DSH_PY="/Users/yiao/.dsh/dsh-runtimes/dsh-primary-runtime/dependencies/
 APP_PORT="${LAUNCH_APP_PORT:-8790}"
 DB_PORT="${LAUNCH_DB_PORT:-8797}"
 VIEW_PORT="${LAUNCH_VIEW_PORT:-8830}"
+# 集成启动器（start_huellax.sh）才使用的服务；T5 三服务脚本不读取这些变量。
+CATALOG_PORT="${LAUNCH_CATALOG_PORT:-8799}"   # B：独立星表 SQLite
+ANYFIELD_PORT="${LAUNCH_ANYFIELD_PORT:-8798}" # C：可选 AnyField
+COVER_PORT="${LAUNCH_COVER_PORT:-8840}"       # 静态封面
 OFFLINE=0
 LOCK_HELD=0
 
@@ -121,6 +125,9 @@ service_label() {
     db) echo "DB" ;;
     app) echo "app" ;;
     view) echo "view" ;;
+    catalog) echo "B" ;;
+    anyfield) echo "C" ;;
+    cover) echo "cover" ;;
     *) echo "$1" ;;
   esac
 }
@@ -130,6 +137,9 @@ service_port() {
     db) echo "$DB_PORT" ;;
     app) echo "$APP_PORT" ;;
     view) echo "$VIEW_PORT" ;;
+    catalog) echo "$CATALOG_PORT" ;;
+    anyfield) echo "$ANYFIELD_PORT" ;;
+    cover) echo "$COVER_PORT" ;;
     *) echo "错误：未知服务 $1" >&2; return 1 ;;
   esac
 }
@@ -141,7 +151,8 @@ service_url() {
 service_health_url() {
   case "$1" in
     db|app) printf '%s/api/health' "$(service_url "$1")" ;;
-    view) printf '%s/' "$(service_url "$1")" ;;
+    catalog|anyfield) printf '%s/api/v1/health' "$(service_url "$1")" ;;
+    view|cover) printf '%s/' "$(service_url "$1")" ;;
   esac
 }
 
@@ -150,6 +161,9 @@ service_marker() {
     db) printf 'cli.py serve --port %s' "$DB_PORT" ;;
     app) printf '系统/app/server.py --port %s' "$APP_PORT" ;;
     view) printf 'http.server %s' "$VIEW_PORT" ;;
+    catalog) printf 'catalog_server.py --port %s' "$CATALOG_PORT" ;;
+    anyfield) printf 'server.py --host 127.0.0.1 --port %s' "$ANYFIELD_PORT" ;;
+    cover) printf 'http.server %s' "$COVER_PORT" ;;
   esac
 }
 
@@ -277,6 +291,8 @@ health_wait() {
   case "$svc" in
     db) expect="spherex-db" ;;
     app) expect="MoveScope" ;;
+    catalog) expect="star-catalog" ;;
+    anyfield) expect="anyfield-p1b" ;;
   esac
   if [ -n "$expect" ]; then
     args+=(--expect-service "$expect")

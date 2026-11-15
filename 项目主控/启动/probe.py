@@ -71,13 +71,29 @@ def _check_once(kind: str, url: str, expect_service: str) -> Optional[str]:
         return str(exc)
     if code != 200:
         return f"HTTP {code}（期望 200）: {_short(body.decode('utf-8', 'replace'), 120)!r}"
-    if kind == "view":
+    if kind in ("view", "cover"):
+        # 静态页没有 health JSON；cover 额外要求有内容，避免把空目录当封面。
+        if kind == "cover" and not body.strip():
+            return "HTTP 200 但响应为空（封面根目录可能没有 index.html）"
         return None
     try:
         payload = json.loads(body.decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         return f"HTTP 200 但响应不是 JSON: {_short(str(exc), 100)}"
-    if not isinstance(payload, dict) or payload.get("ok") is not True:
+    if not isinstance(payload, dict):
+        return f"HTTP 200 但 JSON 不是对象: {_short(body.decode('utf-8', 'replace'), 120)!r}"
+    if kind == "anyfield":
+        # AnyField 的 health 用 status=ok/degraded，没有 ok:true 字段。
+        status = payload.get("status")
+        if status != "ok":
+            return f"HTTP 200 但 status != ok: {_short(json.dumps(payload, ensure_ascii=False), 120)}"
+        if expect_service and payload.get("service") != expect_service:
+            return (
+                "HTTP 200 但 service 不是期望值: "
+                f"{payload.get('service')!r} != {expect_service!r}"
+            )
+        return None
+    if payload.get("ok") is not True:
         return f"HTTP 200 但 ok != true: {_short(json.dumps(payload, ensure_ascii=False), 120)}"
     if expect_service and payload.get("service") != expect_service:
         return (
@@ -111,9 +127,9 @@ def cmd_wait(args: argparse.Namespace) -> int:
             detail = ""
             try:
                 code, body = http_get(args.url)
-                if code == 200 and args.kind != "view":
+                if code == 200 and args.kind not in ("view", "cover"):
                     payload = json.loads(body.decode("utf-8"))
-                    if args.kind == "db":
+                    if args.kind in ("db", "catalog"):
                         # DB 工具演进出 api schema 后，health 同时有 schema_version（API）
                         # 与 db_schema_version（SQLite）。优先报告后者，避免把 1.0 当库版本。
                         if "db_schema_version" in payload:
@@ -122,6 +138,8 @@ def cmd_wait(args: argparse.Namespace) -> int:
                             detail = f" schema={payload['schema_version']}"
                     if args.kind == "app" and "version" in payload:
                         detail = f" version={payload['version']}"
+                    if args.kind == "anyfield" and "service_version" in payload:
+                        detail = f" version={payload['service_version']}"
             except Exception:  # noqa: BLE001 - 成功结果不因附加信息失败而改写
                 pass
             print(f"ok{detail}（{attempts} 次探测）")
@@ -184,7 +202,11 @@ def build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
 
     wait = sub.add_parser("wait", help="轮询 HTTP 健康检查")
-    wait.add_argument("--kind", choices=("db", "app", "view"), required=True)
+    wait.add_argument(
+        "--kind",
+        choices=("db", "app", "view", "catalog", "anyfield", "cover"),
+        required=True,
+    )
     wait.add_argument("--url", required=True)
     wait.add_argument("--expect-service", default="")
     wait.add_argument("--pid", type=int, default=0, help="健康检查期间若该进程退出则立即失败")
