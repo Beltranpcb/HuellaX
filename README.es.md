@@ -253,7 +253,7 @@ BD 8797 · MoveScope 8790 · Sky View 8830
 
 ```bash
 ./scripts/serve_cover.sh
-# http://127.0.0.1:8840/
+# vista previa local en el puerto 8840
 ```
 
 ### Servicios de evidencia opcionales
@@ -264,11 +264,14 @@ submódulo principal contiene sus lanzadores y su runbook:
 - B en 8799 es necesario para la identificación en catálogo.
 - C en 8798 es necesario para cobertura/descubrimiento de campo arbitrario.
 
-Abrir:
+Abrir el sitio alojado:
 
-- entrada: <http://127.0.0.1:8840/>
-- MoveScope: <http://127.0.0.1:8790/>
-- Sky View: <http://127.0.0.1:8830/>
+- entrada: <https://huella-x.earth/>
+- MoveScope: <https://huella-x.earth/app/>
+- Sky View: <https://huella-x.earth/skyview/>
+
+El desarrollo local usa los puertos que muestra el lanzador; este README no
+publica ninguna dirección de servidor.
 
 Detener:
 

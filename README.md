@@ -250,7 +250,7 @@ DB 8797 · MoveScope 8790 · Sky View 8830
 
 ```bash
 ./scripts/serve_cover.sh
-# http://127.0.0.1:8840/
+# local preview on port 8840
 ```
 
 ### Optional evidence services
@@ -261,11 +261,14 @@ submodule contains their launchers and runbook:
 - B on 8799 is needed for catalogue identification.
 - C on 8798 is needed for arbitrary-field coverage/discovery.
 
-Open:
+Open the hosted site:
 
-- entry: <http://127.0.0.1:8840/>
-- MoveScope: <http://127.0.0.1:8790/>
-- Sky View: <http://127.0.0.1:8830/>
+- entry: <https://huella-x.earth/>
+- MoveScope: <https://huella-x.earth/app/>
+- Sky View: <https://huella-x.earth/skyview/>
+
+Local development uses the ports shown by the launcher; no server address is
+published in this README.
 
 Stop:
 
